@@ -5,16 +5,16 @@
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
+    <meta name="description" content="Web site created using create-react-app" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="stylesheet" type="text/css" href="index.css" />
+    <link rel="stylesheet" type="text/css" href="static/css/loading.css" />
+    <script src="static/scripts/fit.js"></script>
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -29,6 +29,186 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+    <div id="GameDiv" cc_exact_fit_screen="true">
+      <div id="Cocos3dGameContainer">
+        <canvas id="GameCanvas" oncontextmenu="event.preventDefault()" tabindex="99"></canvas>
+      </div>
+    </div>
+    <div id="h5-container">
+      <div class="loading-wrap">
+        <img src="static/res/bg_loading.png" alt="bg-loading" class="bg-loading" />
+        <div class="loading-content-box">
+          <div class="loading-rect-box">
+            <img src="static/res/rect.png" alt="rect" class="loading-rect1" />
+            <span class="loading-rect1-title">本獭才不是什么大老鼠！</span>
+          </div>
+          <div class="loading-rect-box2">
+            <img src="static/res/rect2.png" alt="rect" class="loading-rect2" />
+            <img src="static/res/tata_loading.gif" alt="rect" class="loading-tata" />
+          </div>
+          <div class="loading-bottom-box">
+            <div class="progress-box">
+              <div class="progress-bar">
+                <div class="progress-blue"></div>
+                <img src="static/res/matrix.png" class="progress-matrix" alt="matrix" />
+              </div>
+              <span class="progress-title">塔塔正在赶往周年庆活动中.. 0%</span>
+            </div>
+            <div class="login-btn-box" onclick="handleLoginClick()">
+              <img src="static/res/btn-login.png" class="btn-login" alt="btn-login" />
+              <span class="login-title">点击登录账号</span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-box">
+          <div class="mask"></div>
+          <!-- 登录弹窗内容 -->
+          <div class="login-dialog-box comm-dialog-content-box">
+            <img class="comm-bg" alt="bg" src="static/res/bg-dialog.png" />
+            <span class="login-dialog-title">// 请选择数据回顾角色_</span>
+            <div class="dialog-select-box">
+              <span class="dialog-select-text">请选择服务器</span>
+            </div>
+            <div class="dialog-select-box">
+              <span class="dialog-select-text">请选择角色名</span>
+            </div>
+            <div class="dialog-confirm-btn-box" onclick="handleConfirm()">
+              <img src="static/res/btn-login.png" class="dialog-confirm-btn" alt="btn" />
+              <span class="dialog-btn-title">确认</span>
+            </div>
+            <span class="login-dialog-tips">温馨提示:选择角色后请横屏手机继续体验</span>
+          </div>
+          <!-- 无账户弹窗内容 -->
+          <div class="no-account-dialog-box comm-dialog-content-box">
+            <img class="comm-bg" alt="bg" src="static/res/rect3.png" />
+            <span class="no-account-dialog-title">// 温馨提示_</span>
+            <span class="no-account-dialog-text"></span>
+            <div class="download-confirm-btn-box" onclick="handleDownload()">
+              <img src="static/res/btn-download.png" class="download-confirm-btn" alt="btn" />
+              <span class="download-btn-title">前往应用商城下载幻塔</span>
+            </div>
+          </div>
+          <!-- 横屏引导内容 -->
+          <img src="static/res/screen-tips.gif" class="tips-img" alt="landscape" />
+          <!-- 分享故事弹窗 -->
+          <div class="share-story-box comm-dialog-content-box">
+            <img src="static/res/rect5.png" class="comm-bg" alt="bg" />
+            <span class="dialog-title">// 请分享与幻塔一同成长的故事</span>
+            <div class="ipt-area-box">
+              <img src="static/res/rect6.png" class="bg-rect" alt="bg" />
+              <textarea class="ipt-area" placeholder="">输入分享与幻塔一同成长的故事... </textarea>
+            </div>
+            <div class="submit-btn-box">
+              <img src="static/res/btn_receive.png" class="share-story-btn-bg" alt="submit" />
+              <span class="btn-title" onclick="handleSubmit()">确认提交</span>
+            </div>
+            <img
+              src="static/res/icon_close.png"
+              alt="close"
+              class="icon-close"
+              onclick="handleClose('.share-story-box', true)"
+            />
+          </div>
+          <!-- 中奖弹窗 -->
+          <div class="receive-prize-box comm-dialog-content-box">
+            <img src="static/res//rect4.png" class="comm-bg" alt="bg" />
+            <span class="dialog-title receive-prize-title">// 恭喜中奖_</span>
+            <div class="prize-box">
+              <img src="static/res/rect6.png" class="bg-rect" alt="bg" />
+              <img class="img-prize" alt="prize" />
+            </div>
+            <div class="register-btn-box">
+              <img src="static/res/btn_receive.png" class="bg-btn" alt="submit" />
+              <span class="btn-title" onclick="handleRegister()">前往登记领奖地址</span>
+            </div>
+            <div class="icon-close2" onclick="handleClose('.receive-prize-box', true)"></div>
+          </div>
+          <!-- 未中奖弹窗 -->
+          <div class="no-prize-box comm-dialog-content-box">
+            <img src="static/res/rect4.png" class="comm-bg2" alt="bg" />
+            <span class="dialog-title no-prize-title">// 我的奖品</span>
+            <span class="no-prize-content">您还没有抽到奖品哦</span>
+            <div class="icon-close2" onclick="handleClose('.no-prize-box', true)"></div>
+          </div>
+          <!-- 领奖登记 -->
+          <div class="register-prize-box comm-dialog-content-box">
+            <img src="static/res/rect5.png" class="comm-bg" alt="bg" />
+            <div class="register-box-header">
+              <div class="register-box-header-left">
+                <span class="dialog-title my-prize-title">// 我的奖品_</span>
+                <span class="dialog-header-content">Apple HomePod mini 智能音响</span>
+              </div>
+              <div class="register-box-header-right">
+                <img class="comm-bg" src="static/res/rect6.png" alt="bg" />
+                <img class="register-box-prize-img" />
+              </div>
+              <span class="tag-title">待领奖</span>
+            </div>
+            <div class="line-box line1">
+              <input class="ipt name" placeholder="姓名" />
+              <input class="ipt phone" placeholder="手机号" />
+            </div>
+            <div class="line-box line2">
+              <input class="ipt ssq" placeholder="省市区" />
+            </div>
+            <div class="line-box line3">
+              <input class="ipt address" placeholder="详细住址（如**街**号**）" />
+            </div>
+            <div class="submit-btn-box">
+              <img src="static/res/btn_receive.png" class="bg-btn" alt="submit" />
+              <span class="btn-title" onclick="handleSubmitInfo()">确认提交</span>
+            </div>
+            <span class="submit-tips">请仔细填写，提交后无法修改</span>
+            <img
+              src="static/res/icon_close.png"
+              alt="close"
+              class="icon-close"
+              onclick="handleClose('.register-prize-box', true)"
+            />
+          </div>
+          <!-- 我的奖品 -->
+          <div class="my-prize-box comm-dialog-content-box">
+            <img src="static/res/rect4.png" class="comm-bg2" alt="bg" />
+            <div class="my-prize-header">
+              <div class="my-prize-header-left">
+                <span class="dialog-title my-prize-title2">// 我的奖品 _</span>
+                <span class="prize-name">京东卡100元</span>
+              </div>
+              <div class="my-prize-header-right">
+                <img class="comm-bg" src="static/res/rect6.png" alt="bg" />
+                <img class="my-prize-img" />
+              </div>
+            </div>
+            <div class="bl"></div>
+            <span class="dialog-title2">// 奖品信息 _</span>
+            <div class="my-prize-line-box">
+              <span class="account">账号</span>
+              <span class="prize-info-text">AHJ15612DJP</span>
+              <span class="copy-btn">复制</span>
+            </div>
+            <div class="my-prize-line-box">
+              <span class="account">卡密</span>
+              <span class="prize-info-text">SAH41458332156</span>
+              <span class="copy-btn">复制</span>
+            </div>
+            <div class="icon-close2" onclick="handleClose('.my-prize-box', true)"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="static/scripts/h5-main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+    <script>
+      const sound = new Howl({
+        src: ['static/audio/bgm.mp3'],
+        autoplay: true,
+        loop: true,
+      })
+      sound.play()
+      window.onMute = mute => {
+        Howler.volume(mute ? 0 : 0.5)
+      }
+    </script>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

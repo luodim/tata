@@ -1,0 +1,755 @@
+#h5-container {
+  width: 750rem;
+  height: 1500rem;
+  position: absolute;
+  margin: auto;
+}
+
+.loading-wrap {
+  width: 750rem;
+  height: 1500rem;
+  position: relative;
+}
+
+.loading-content-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* opacity: 0; */
+}
+
+.bg-loading {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.loading-rect-box {
+  margin-top: 260rem;
+  width: 512rem;
+  height: 93rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.loading-rect1 {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  position: absolute;
+}
+
+.loading-rect1-title {
+  width: 100%;
+  font-size: 36rem;
+  font-family: HYQiHei;
+  font-weight: normal;
+  color: #2166f0;
+  position: relative;
+  white-space: pre-wrap;
+  position: relative;
+}
+
+.loading-rect1-title2 {
+  width: 70%;
+  font-size: 32rem;
+  font-family: HYQiHei;
+  font-weight: normal;
+  color: #2166f0;
+  line-height: 41rem;
+  white-space: pre-wrap;
+  text-align: left;
+  position: relative;
+}
+
+.loading-rect-box2 {
+  margin-top: 142rem;
+  width: 405rem;
+  height: 498rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.loading-rect2 {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  position: absolute;
+}
+
+.loading-tata {
+  height: 350rem;
+  object-fit: contain;
+  position: relative;
+}
+
+.loading-bottom-box {
+  margin-top: 200rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-box {
+  width: 525rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.progress-bar {
+  width: 525rem;
+  height: 6rem;
+  background: #e4e4e4;
+  box-shadow: 0px 1px 6px 0px rgba(8, 8, 8, 0.23);
+  position: relative;
+}
+
+.progress-blue {
+  width: 0%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: #2166f0;
+}
+
+.progress-matrix {
+  height: 12rem;
+  object-fit: contain;
+  position: absolute;
+  left: 99%;
+}
+
+.progress-title {
+  font-size: 26rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin-top: 34rem;
+  position: relative;
+}
+
+.login-btn-box {
+  width: 366rem;
+  height: 76rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  opacity: 0;
+  z-index: -9;
+}
+
+.btn-login {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  object-fit: fill;
+  left: 16rem;
+}
+
+.login-title {
+  font-size: 30rem;
+  font-family: HYQiHei;
+  font-weight: normal;
+  color: #ffffff;
+  position: relative;
+}
+
+.modal-box {
+  width: 750rem;
+  height: 1500rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  z-index: -9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mask {
+  width: 100%;
+  height: 100%;
+  background-color: #000000;
+  opacity: 0;
+  backdrop-filter: blur(20px);
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.no-prize-title {
+  margin-top: 60rem;
+}
+
+.comm-dialog-content-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  opacity: 0;
+  margin: auto;
+  transform: scale(0.5, 0.5);
+}
+
+.comm-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.comm-bg2 {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.login-dialog-box {
+  width: 608rem;
+  height: 588rem;
+}
+
+.login-dialog-title {
+  font-size: 32rem;
+  font-family: HYQiHei;
+  font-weight: normal;
+  color: #2166f0;
+  margin: 88rem 0 45rem 0;
+  position: relative;
+}
+
+.dialog-select-box {
+  width: 470rem;
+  height: 72rem;
+  border: 2rem solid #2166f0;
+  display: flex;
+  align-items: center;
+  margin: 17rem 0;
+  position: relative;
+}
+
+.dialog-select-text {
+  font-size: 28rem;
+  font-family: HYQiHei;
+  font-weight: normal;
+  color: #2166f0;
+  opacity: 0.59;
+  margin-left: 25rem;
+  position: relative;
+}
+
+.dialog-confirm-btn-box {
+  width: 287rem;
+  height: 63rem;
+  opacity: 0.67;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-top: 20rem;
+}
+
+.dialog-confirm-btn {
+  height: 63rem;
+  width: 210rem;
+  object-fit: fill;
+  position: absolute;
+  margin-left: 16rem;
+}
+
+.dialog-btn-title {
+  font-size: 29rem;
+  font-family: HYQiHei;
+  font-weight: normal;
+  color: #ffffff;
+  position: relative;
+}
+
+.login-dialog-tips {
+  font-size: 20rem;
+  font-family: HYQiHei;
+  font-weight: normal;
+  color: #2166f0;
+  opacity: 0.65;
+  margin-top: 25rem;
+  position: relative;
+}
+
+.no-account-dialog-box {
+  width: 637rem;
+  height: 384rem;
+  top: 450rem;
+}
+
+.no-account-dialog-title {
+  font-size: 34rem;
+  font-family: HYQiHei;
+  font-weight: normal;
+  color: #2166f0;
+  margin-top: 73rem;
+  position: relative;
+}
+
+.no-account-dialog-text {
+  font-size: 24rem;
+  font-family: HYQiHei;
+  font-weight: normal;
+  color: #447af2;
+  line-height: 37rem;
+  opacity: 0.68;
+  margin-top: 47rem;
+  white-space: pre-wrap;
+}
+
+.share-story-btn-bg {
+  width: 287rem;
+  height: 63rem;
+  margin-left: 16rem;
+  position: absolute;
+}
+
+.download-confirm-btn-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-top: 50rem;
+}
+
+.download-confirm-btn {
+  height: 50rem;
+  object-fit: contain;
+  position: absolute;
+}
+
+.download-btn-title {
+  font-size: 24rem;
+  font-family: HYQiHei;
+  font-weight: normal;
+  color: #ffffff;
+  opacity: 0.77;
+  position: relative;
+}
+
+.tips-img {
+  height: 80%;
+  object-fit: contain;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  opacity: 0;
+  z-index: -9;
+}
+
+.share-story-box {
+  width: 647rem;
+  height: 735rem;
+}
+
+.dialog-title {
+  font-size: 32rem;
+  font-family: HYQiHei;
+  font-weight: normal;
+  color: #2166f0;
+  margin-top: 84rem;
+  position: relative;
+}
+
+.ipt-area-box {
+  width: 498rem;
+  height: 367rem;
+  position: relative;
+  margin-top: 68rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bg-rect {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  position: absolute;
+}
+
+.ipt-area {
+  width: 442rem;
+  height: 313rem;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 20rem;
+  font-size: 28rem;
+  font-family: HYQiHei;
+  font-weight: normal;
+  color: #2166f0;
+  position: relative;
+}
+
+.ipt-area::placeholder {
+  font-size: 24rem;
+  font-family: HYQiHei;
+  font-weight: normal;
+  color: rgba(33, 102, 240, 0.3);
+  /* color: #2166f0;
+  opacity: 0.3; */
+}
+
+.submit-btn-box {
+  margin-top: 43rem;
+  width: 287rem;
+  height: 63rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bg-btn {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  position: absolute;
+}
+
+.btn-title {
+  font-size: 29rem;
+  font-family: HYQiHei;
+  font-weight: normal;
+  color: #ffffff;
+  position: relative;
+}
+
+.icon-close {
+  width: 72rem;
+  height: 71rem;
+  position: absolute;
+  bottom: -124rem;
+}
+
+.receive-prize-box {
+  width: 662rem;
+  height: 402rem;
+}
+
+.receive-prize-title {
+  margin-top: 42rem;
+}
+
+.img-prize {
+  width: 212rem;
+  height: 150rem;
+}
+
+.prize-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-top: 23rem;
+}
+
+.img-prize {
+  height: 150rem;
+  object-fit: contain;
+  background-color: #2166f0;
+  position: relative;
+}
+
+.register-btn-box {
+  width: 235rem;
+  height: 50rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 35rem;
+}
+
+.icon-close2 {
+  width: 60rem;
+  height: 60rem;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.no-prize-box {
+  width: 517rem;
+  height: 295rem;
+}
+
+.no-prize-content {
+  font-size: 28rem;
+  font-weight: bold;
+  color: #799ee8;
+  opacity: 0.77;
+  margin-top: 30rem;
+}
+
+.register-prize-box {
+  width: 647rem;
+  height: 735rem;
+}
+
+.register-box-header {
+  margin-top: 44rem;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+}
+
+.register-box-header-left {
+  width: 260rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.dialog-header-content {
+  padding-left: 40rem;
+  font-size: 24rem;
+  font-weight: 500;
+  color: #799ee8;
+  line-height: 31rem;
+  margin-top: 58rem;
+  position: relative;
+}
+
+.register-box-header-right {
+  margin-left: 20rem;
+  position: relative;
+  width: 224rem;
+  height: 167rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.register-box-prize-img {
+  width: 125rem;
+  height: 118rem;
+  background-color: #2166f0;
+  position: relative;
+}
+
+.tag-title {
+  padding: 14rem 4rem;
+  margin-left: 12rem;
+  background-color: #2166f0;
+  font-size: 20rem;
+  font-weight: 500;
+  color: #ffffff;
+  text-align: center;
+  writing-mode: vertical-lr;
+  position: relative;
+}
+
+.line-box {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  width: 537rem;
+  height: 44rem;
+  position: relative;
+}
+
+.ipt {
+  height: 44rem;
+  border-bottom: 1rem solid #8ea7d5;
+  text-align: left;
+  line-height: 44rem;
+  outline: none;
+  border-style: none;
+}
+
+.name {
+  width: 250rem;
+  margin-right: 20rem;
+}
+
+.phone {
+  width: 250rem;
+}
+
+.ipt::placeholder {
+  font-size: 28rem;
+  font-family: HYQiHei;
+  font-weight: normal;
+  color: #2166f0;
+  opacity: 0.65;
+}
+
+.line1 {
+  margin-top: 100rem;
+}
+
+.line2,
+.line3 {
+  margin-top: 20rem;
+}
+
+.address,
+.ssq {
+  width: 537rem;
+}
+
+.submit-tips {
+  font-size: 21rem;
+  font-weight: 400;
+  color: #799ee8;
+  opacity: 0.8;
+  margin-top: 22rem;
+}
+
+.my-prize-title {
+  margin-top: 5rem;
+}
+
+.my-prize-box {
+  width: 692rem;
+  height: 432rem;
+}
+
+.my-prize-header {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 548rem;
+  height: 120rem;
+  position: relative;
+  margin-top: 50rem;
+}
+
+.my-prize-header-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: absolute;
+  left: 0;
+}
+
+.my-prize-title2 {
+  font-size: 32rem;
+  font-family: HYQiHei;
+  font-weight: normal;
+  color: #2166f0;
+  margin-top: 15rem;
+}
+
+.prize-name {
+  font-size: 22rem;
+  font-family: HYQiHei;
+  font-weight: normal;
+  color: #799ee8;
+  margin-top: 38rem;
+  margin-left: 57rem;
+}
+
+.my-prize-header-right {
+  width: 170rem;
+  height: 120rem;
+  margin-left: 50rem;
+  position: absolute;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bl {
+  width: 548rem;
+  height: 2rem;
+  background: #2166f0;
+  margin: 30rem 0 20rem 0;
+  position: relative;
+}
+
+.dialog-title2 {
+  width: 548rem;
+  text-align: left;
+  font-size: 26rem;
+  font-family: HYQiHei;
+  font-weight: normal;
+  color: #2166f0;
+  position: relative;
+  margin-bottom: 6rem;
+}
+
+.my-prize-line-box {
+  width: 485rem;
+  height: 45rem;
+  margin-bottom: 24rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.account {
+  font-size: 24rem;
+  font-family: HYQiHei;
+  font-weight: normal;
+  color: #2166f0;
+  line-height: 45rem;
+}
+
+.prize-info-text {
+  width: 275rem;
+  line-height: 45rem;
+  font-size: 20rem;
+  font-family: HYQiHei;
+  font-weight: normal;
+  color: #799ee8;
+  text-align: left;
+  opacity: 0.5;
+  border-bottom: 1rem solid #2166f0;
+  margin-left: 27rem;
+}
+
+.copy-btn {
+  font-size: 22rem;
+  font-family: HYQiHei;
+  font-weight: normal;
+  color: #ffffff;
+  line-height: 45rem;
+  padding: 0 20rem;
+  background: #2166f0;
+  border-radius: 2px;
+  text-align: center;
+  margin-left: 18rem;
+}
+
+.my-prize-img {
+  width: 128rem;
+  height: 110rem;
+  position: relative;
+  background-color: #2166f0;
+}
