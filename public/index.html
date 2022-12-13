@@ -54,7 +54,7 @@
               </div>
               <span class="progress-title">塔塔正在赶往周年庆活动中.. 0%</span>
             </div>
-            <div class="login-btn-box" onclick="handleLoginClick()">
+            <div class="login-btn-box logIn">
               <img src="static/res/btn-login.png" class="btn-login" alt="btn-login" />
               <span class="login-title">点击登录账号</span>
             </div>
@@ -197,6 +197,7 @@
       </div>
     </div>
     <script src="static/scripts/h5-main.js"></script>
+    <script type="text/javascript" src="https://static.games.wanmei.com/public/js/jq_183.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
     <script>
       const sound = new Howl({
@@ -209,6 +210,48 @@
         Howler.volume(mute ? 0 : 0.5)
       }
     </script>
+    <script
+    type="text/javascript"
+    src="https://static.games.wanmei.com/public/js/id_wmlogin.js"
+  ></script>
+  <script type="text/javascript">
+    if ($.islogin()) {
+      //登录
+      $('.userName').text(userStatus.nickName)
+      console.log('loginState', 'has login')
+    } else {
+      //未登录
+      console.log('loginState', 'not login')
+    }
+    $('.logIn').on('click', function () {
+      console.log('loginxxxxx')
+      $.islogin(true)
+    })
+
+    //退出
+    $('.logOut').on('click', function () {
+      logout()
+    })
+  </script>
+  <script type="text/javascript" src="https://static.games.wanmei.com/public/js/mobileGames-server-role.js"></script>
+  <script type="text/javascript">
+    var sr = $.serverRole({
+        data : {
+            event : 'ht'//这里需 要传的是某游戏的名字，可以找程序要比如：xmz
+        },
+        serverNode : $('#server'),
+        roleNode : $('#role')
+    });
+    sr.load = function(res){
+        console.log(res)
+    }
+    sr.error = function(res){
+        console.log(res)
+    }
+    sr.change = function(res){
+        console.log(res)
+    }
+  </script>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

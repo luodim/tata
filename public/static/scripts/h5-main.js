@@ -3,11 +3,9 @@ let mockTestCount = 0
 function displayCtrl(node, state) {
   console.log('display ctrl', node, state)
   if (!node) return
-  console.log(node.style)
-  console.log(node.className)
   node.style.zIndex = state ? '999' : '-9'
-  node.style.left = state ? '0' : '-200vw'
-  node.style.right = state ? '0' : '-200vw'
+  // node.style.left = state ? '0' : '-200vw'
+  // node.style.right = state ? '0' : '-200vw'
 }
 
 function showAnimCtrl(node, state, min = '0', max = '1', minZ = '-9', maxZ = '9') {
@@ -124,6 +122,7 @@ function handleRegister() {
 }
 
 window.onLoadProgress = (progress) => {
+  progress = progress > 1 ? 1 : progress
   if (progressBlueNode) progressBlueNode.style.width = `${progress * 100}%`
   if (progressMatrix) progressMatrix.style.left = `${progress * 99}%`
   if (progressTextNode)
@@ -135,11 +134,7 @@ window.onLoadComplete = () => {
   showAnimCtrl(loginBtn, true)
   scaleCtrl(rect1BgNode, 1, 1.5)
   rect1TextNode.className = `${rect1TextNode.className}2`
-  setText(
-    rect1TextNode,
-    `欢迎来参加周年庆活动，
-先登录您的账号吧~`
-  )
+  setText(rect1TextNode, `欢迎来参加周年庆活动，先登录您的账号吧~`)
 }
 
 // 点击分享故事按钮
@@ -175,14 +170,14 @@ window.onMyPrizeClick = (hasPrize) => {
   showModal(hasPrize ? myPrizeNode : noPrizeNode, true)
 }
 
-// let count = 0
-// // mock
-// const timer = setInterval(() => {
-//   if (count >= 100) {
-//     timer && clearInterval(timer)
-//     onLoadComplete()
-//   } else {
-//     count++
-//     onLoadProgress(count / 100)
-//   }
-// }, 20)
+let count = 0
+// mock
+const timer = setInterval(() => {
+  if (count >= 100) {
+    timer && clearInterval(timer)
+    onLoadComplete()
+  } else {
+    count++
+    onLoadProgress(count / 100)
+  }
+}, 20)
