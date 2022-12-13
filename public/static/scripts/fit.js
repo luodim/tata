@@ -14,7 +14,6 @@ function fit() {
       node && (node.style.transform = `rotate(0deg)`)
       // doOffset(node, true)
     }
-    console.log('scale', scale, scale * 750, clientWidth, clientHeight)
     document.documentElement.style.fontSize = scale + 'px'
   }
   window.onresize = setRem

@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -251,6 +252,7 @@ html, body {
 }
 
 .dialog-select-box {
+  padding: 5rem;
   width: 470rem;
   height: 72rem;
   border: 2rem solid #2166f0;
@@ -258,6 +260,18 @@ html, body {
   align-items: center;
   margin: 17rem 0;
   position: relative;
+  font-family: HYQiHei;
+  font-weight: normal;
+  color: #2166f0;
+  opacity: 0.8;
+}
+.dialog-select-box option {
+  width: 470rem;
+  height: 72rem;
+  font-family: HYQiHei;
+  font-weight: normal;
+  color: #2166f0;
+  opacity: 1;
 }
 
 .dialog-select-text {
@@ -310,7 +324,6 @@ html, body {
 .no-account-dialog-box {
   width: 637rem;
   height: 384rem;
-  top: 450rem;
 }
 
 .no-account-dialog-title {
@@ -318,7 +331,7 @@ html, body {
   font-family: HYQiHei;
   font-weight: normal;
   color: #2166f0;
-  margin-top: 73rem;
+  margin-top: 70rem;
   position: relative;
 }
 
@@ -329,7 +342,7 @@ html, body {
   color: #447af2;
   line-height: 37rem;
   opacity: 0.68;
-  margin-top: 47rem;
+  margin-top: 40rem;
   white-space: pre-wrap;
 }
 
@@ -345,12 +358,14 @@ html, body {
   align-items: center;
   justify-content: center;
   position: relative;
-  margin-top: 50rem;
+  margin-top: 45rem;
 }
 
 .download-confirm-btn {
+  width: 350rem;
   height: 50rem;
-  object-fit: contain;
+  margin-left: 25rem;
+  object-fit: fill;
   position: absolute;
 }
 
@@ -440,10 +455,28 @@ html, body {
   justify-content: center;
 }
 
+.submit-btn-box2 {
+  margin-top: 60rem;
+  width: 287rem;
+  height: 63rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .bg-btn {
   height: 100%;
   width: 100%;
   object-fit: contain;
+  position: absolute;
+}
+
+.bg-btn2 {
+  height: 50rem;
+  width: 360rem;
+  margin-left: 40rem;
+  object-fit: fill;
   position: absolute;
 }
 
@@ -591,11 +624,17 @@ html, body {
 
 .ipt {
   height: 44rem;
-  border-bottom: 1rem solid #8ea7d5;
   text-align: left;
   line-height: 44rem;
   outline: none;
   border-style: none;
+  border-bottom: 1rem solid #8ea7d5;
+  background: transparent;
+  padding: 0 5rem;
+  font-size: 28rem;
+  font-family: HYQiHei;
+  font-weight: normal;
+  color: #2166f0;
 }
 
 .name {
@@ -761,4 +800,25 @@ html, body {
   height: 110rem;
   position: relative;
   background-color: #2166f0;
+}
+
+.my-prize-address {
+  width: 407rem;
+  font-size: 22rem;
+  font-family: HYQiHei;
+  font-weight: normal;
+  color: #799ee8;
+  line-height: 30rem;
+  position: absolute;
+  text-align: left;
+  left: 0;
+  top: 0;
+}
+
+.my-prize-info-wrap {
+  display: flex;
+  flex-direction: column;
+  width: 500rem;
+  position: relative;
+  margin-top: 10rem;
 }

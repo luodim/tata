@@ -124,5 +124,3 @@ const addressData = {
   traceId: '39c3bf1903604094a1709ef137f5c468',
   result: {},
 }
-
-export { userInfo, gameData, codeData, shareResponse, lotteryData, addressData }

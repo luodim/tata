@@ -1,7 +1,12 @@
 let mockTestCount = 0
+let isLogin = false
+let noAccount = false
+let serverData = null
+let storyContent = null
+let registerData = { name: '', phone: '', address: '', address2: '' }
+let giftType = null
 
 function displayCtrl(node, state) {
-  console.log('display ctrl', node, state)
   if (!node) return
   node.style.zIndex = state ? '999' : '-9'
   // node.style.left = state ? '0' : '-200vw'
@@ -13,6 +18,10 @@ function showAnimCtrl(node, state, min = '0', max = '1', minZ = '-9', maxZ = '9'
   node.style.opacity = state ? max : min
   node.style.zIndex = state ? maxZ : minZ
   node.style.transition = `opacity 0.3s ease`
+}
+
+function setOp(node, op) {
+  node.style.opacity = op
 }
 
 function scaleCtrl(node, scaleX = 1, scaleY = 1) {
@@ -67,6 +76,15 @@ const registerPrizeNode = getNode('.register-prize-box')
 const noPrizeTitle = getNode('.receive-prize-title')
 const noPrizeContent = getNode('.no-prize-content')
 const myPrizeNode = getNode('.my-prize-box')
+const prizeName = getNode('.prize-name')
+const prizeName2 = getNode('.dialog-header-content')
+const btnGetPrizeName = getNode('.btn-title-get-prize')
+const myPrizeInfo = getNode('.dialog-title2')
+const accountText = getNode('.card-account-text')
+const codeText = getNode('.card-code-text')
+const accountBox = getNode('.my-prize-account-box')
+const codeBox = getNode('.my-prize-code-box')
+const myPrizeAddrss = getNode('.my-prize-address')
 
 noAccountContentNode &&
   (noAccountContentNode.innerHTML = `您在幻塔中没有创建过角色,不如到应
@@ -81,7 +99,13 @@ function handleLoginClick() {
   mockTestCount++
 }
 
-function handleConfirm() {
+async function handleConfirm() {
+  if (!serverData) return
+  const { serverId, roleId } = serverData
+  if (!serverId || !roleId) return
+  const res = await reqGameData(roleId, serverId)
+  window.gameData = res.result.info
+  updateUserInfo()
   showAnimCtrl(loginDialogBoxNode, false)
   scaleCtrl(loginDialogBoxNode, 0.5, 0.5)
   showAnimCtrl(bgLoadingNode, false)
@@ -90,35 +114,107 @@ function handleConfirm() {
     showModal(tipsNode, false)
     displayCtrl(h5Node, false)
     window.onGameInit && window.onGameInit()
-  }, 1000)
+  }, 2500)
 }
 
 function handleDownload() {
-  window.open('https://www.baidu.com', '_self')
+  window.open('https://ht.wanmei.com/', '_self')
   displayCtrl(h5Node, false)
 }
 
 function handleClose(contentNodeName, needChange) {
   const contentNode = getNode(contentNodeName)
-  console.log(contentNode)
   contentNode && showModal(contentNode, false)
-
   if (needChange) displayCtrl(h5Node, false)
 }
 
-function handleSubmit() {
+function handleSelectChange(e) {
+  console.log(e)
+}
+
+async function updateUserInfo() {
+  const res2 = await reqUserInfo()
+  window.userInfo = res2.result
+}
+
+async function handleSubmit() {
+  const res = await reqShareStory(storyContent)
+  if (res.status === 1000) {
+    // todo
+    updateUserInfo()
+  }
   showModal(shareStoryNode, false)
   displayCtrl(h5Node, false)
 }
 
-function handleSubmitInfo() {
+async function handleSubmitInfo() {
+  if (!registerData || !registerData.name || !registerData.phone) return
+  const res = await reqAddress(
+    `${registerData.address} ${registerData.address2}`,
+    registerData.name,
+    registerData.phone
+  )
+  console.log(res)
+  if (res.status === 1000) {
+    // todo
+    updateUserInfo()
+  }
   showModal(registerPrizeNode, false)
   displayCtrl(h5Node, false)
 }
 
 function handleRegister() {
   showModal(receivePrizeNode, false)
-  showModal(registerPrizeNode, true)
+  if (giftType === 11) {
+    showModal(registerPrizeNode, true)
+  } else {
+    displayCtrl(h5Node, false)
+  }
+}
+
+function getUserData() {
+  if (window.userInfo && window.userInfo.user) return window.userInfo.user
+  return null
+}
+
+function getPrizeData() {
+  if (window.userInfo && window.userInfo.myPrize) return window.userInfo.myPrize
+  return null
+}
+
+function handleIpt(v, id) {
+  console.log(v, id)
+  const obj = { ...registerData }
+  obj[id] = v
+  registerData = obj
+}
+
+function handleCopy(id) {
+  let text = ''
+  if (id === 'account') {
+    text = accountText ? accountText.innerHTML : ''
+  } else if (id === 'code') {
+    text = codeText ? codeText.innerHTML : ''
+  }
+  if (navigator.clipboard) {
+    // clipboard api 复制
+    navigator.clipboard.writeText(text)
+  } else {
+    const textarea = document.createElement('textarea')
+    document.body.appendChild(textarea)
+    // 隐藏此输入框
+    textarea.style.position = 'fixed'
+    textarea.style.clip = 'rect(0 0 0 0)'
+    textarea.style.top = '10px'
+    // 赋值
+    textarea.value = text
+    // 选中
+    textarea.select()
+    // 复制
+    document.execCommand('copy', true)
+    // 移除输入框
+    document.body.removeChild(textarea)
+  }
 }
 
 window.onLoadProgress = (progress) => {
@@ -131,10 +227,15 @@ window.onLoadProgress = (progress) => {
 
 window.onLoadComplete = () => {
   showAnimCtrl(progressBoxNode, false)
-  showAnimCtrl(loginBtn, true)
-  scaleCtrl(rect1BgNode, 1, 1.5)
-  rect1TextNode.className = `${rect1TextNode.className}2`
-  setText(rect1TextNode, `欢迎来参加周年庆活动，先登录您的账号吧~`)
+  if (isLogin) {
+    showAnimCtrl(loadingContentNode, false)
+    showModal(noAccount ? noAccountDialogNode : loginDialogBoxNode, true)
+  } else {
+    showAnimCtrl(loginBtn, true)
+    scaleCtrl(rect1BgNode, 1, 1.5)
+    rect1TextNode.className = `${rect1TextNode.className}2`
+    setText(rect1TextNode, `欢迎来参加周年庆活动，先登录您的账号吧~`)
+  }
 }
 
 // 点击分享故事按钮
@@ -147,27 +248,52 @@ window.onClickShareStory = () => {
  * 点击抽奖按钮
  * @param {*} hasPrize 是否中奖
  */
-window.onClickLottory = (hasPrize) => {
+window.onClickLottory = async () => {
+  const res = await reqLottery()
+  const hasPrize = Boolean(res && res.result && res.result.pageId !== null)
+  giftType = res && res.result ? res.result.type : 12
+  updateUserInfo()
   displayCtrl(h5Node, true)
   if (!hasPrize) {
     setText(noPrizeTitle, '// 很遗憾，大奖擦肩而过 _')
     setText(noPrizeContent, '别灰心，打开游戏刷刷地图吧！')
+  } else {
+    setText(prizeName, getPrizeData() && getPrizeData().prizeName ? getPrizeData().prizeName : '')
+    setText(prizeName2, getPrizeData() && getPrizeData().prizeName ? getPrizeData().prizeName : '')
+    setText(btnGetPrizeName, giftType === 11 ? '前往登记领奖地址' : '确定')
   }
   showModal(hasPrize ? receivePrizeNode : noPrizeNode, true)
 }
 
 /**
  * 点击我的奖品按钮
- * @param {*} hasPrize 是否有奖
  */
-window.onMyPrizeClick = (hasPrize) => {
+window.onMyPrizeClick = () => {
+  const hasPrize = Boolean(window.userInfo && window.userInfo.myPrize)
   displayCtrl(h5Node, true)
   if (!hasPrize) {
     setText(noPrizeTitle, '// 我的奖品')
     setText(noPrizeContent, '您还没有抽到奖品哦')
     showModal(noPrizeNode, true)
+  } else {
+    setText(myPrizeInfo, window.userInfo.myPrize.address ? '// 领奖邮寄地址 _' : '// 奖品信息 _')
+    setText(prizeName, getPrizeData() && getPrizeData().prizeName ? getPrizeData().prizeName : '')
+    setText(accountText, getPrizeData() && getPrizeData().card ? getPrizeData().card : '')
+    setText(codeText, getUserData() && getUserData().code ? getUserData().code : '')
+    setOp(accountBox, window.userInfo.myPrize.address ? 0 : 1)
+    setOp(codeBox, window.userInfo.myPrize.address ? 0 : 1)
+    setOp(myPrizeAddrss, window.userInfo.myPrize.address ? 1 : 0)
   }
   showModal(hasPrize ? myPrizeNode : noPrizeNode, true)
+}
+
+// 用户点击游戏礼品按钮
+window.onClickGift = () => {
+  if (window.userInfo && window.userInfo.user && window.userInfo.user.code) {
+    window.handleGiftCB(window.userInfo.user.code)
+  } else {
+    window.handleGiftCB(null)
+  }
 }
 
 let count = 0

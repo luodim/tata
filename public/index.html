@@ -66,12 +66,12 @@
           <div class="login-dialog-box comm-dialog-content-box">
             <img class="comm-bg" alt="bg" src="static/res/bg-dialog.png" />
             <span class="login-dialog-title">// 请选择数据回顾角色_</span>
-            <div class="dialog-select-box">
-              <span class="dialog-select-text">请选择服务器</span>
-            </div>
-            <div class="dialog-select-box">
-              <span class="dialog-select-text">请选择角色名</span>
-            </div>
+            <select class="dialog-select-box" id="server"  onchange="handleSelectChange()">
+              <option>请选择服务器</option>
+            </select>
+            <select class="dialog-select-box" id="role">
+              <option>请选择角色名</option>
+            </select>
             <div class="dialog-confirm-btn-box" onclick="handleConfirm()">
               <img src="static/res/btn-login.png" class="dialog-confirm-btn" alt="btn" />
               <span class="dialog-btn-title">确认</span>
@@ -96,7 +96,7 @@
             <span class="dialog-title">// 请分享与幻塔一同成长的故事</span>
             <div class="ipt-area-box">
               <img src="static/res/rect6.png" class="bg-rect" alt="bg" />
-              <textarea class="ipt-area" placeholder="">输入分享与幻塔一同成长的故事... </textarea>
+              <textarea class="ipt-area" placeholder="输入分享与幻塔一同成长的故事... " oninput="handleTAChange(this.value)"></textarea>
             </div>
             <div class="submit-btn-box">
               <img src="static/res/btn_receive.png" class="share-story-btn-bg" alt="submit" />
@@ -118,8 +118,8 @@
               <img class="img-prize" alt="prize" />
             </div>
             <div class="register-btn-box">
-              <img src="static/res/btn_receive.png" class="bg-btn" alt="submit" />
-              <span class="btn-title" onclick="handleRegister()">前往登记领奖地址</span>
+              <img src="static/res/btn_receive.png" class="bg-btn2" alt="submit" style="margin-left:20rem"/>
+              <span class="btn-title btn-title-get-prize" onclick="handleRegister()">前往登记领奖地址</span>
             </div>
             <div class="icon-close2" onclick="handleClose('.receive-prize-box', true)"></div>
           </div>
@@ -136,7 +136,7 @@
             <div class="register-box-header">
               <div class="register-box-header-left">
                 <span class="dialog-title my-prize-title">// 我的奖品_</span>
-                <span class="dialog-header-content">Apple HomePod mini 智能音响</span>
+                <span class="dialog-header-content"></span>
               </div>
               <div class="register-box-header-right">
                 <img class="comm-bg" src="static/res/rect6.png" alt="bg" />
@@ -145,16 +145,16 @@
               <span class="tag-title">待领奖</span>
             </div>
             <div class="line-box line1">
-              <input class="ipt name" placeholder="姓名" />
-              <input class="ipt phone" placeholder="手机号" />
+              <input class="ipt name" placeholder="姓名" oninput="handleIpt(this.value, 'name')"/>
+              <input class="ipt phone" placeholder="手机号" oninput="handleIpt(this.value, 'phone')"/>
             </div>
             <div class="line-box line2">
-              <input class="ipt ssq" placeholder="省市区" />
+              <input class="ipt ssq" placeholder="省市区" oninput="handleIpt(this.value, 'address')"/>
             </div>
             <div class="line-box line3">
-              <input class="ipt address" placeholder="详细住址（如**街**号**）" />
+              <input class="ipt address" placeholder="详细住址（如**街**号**）" oninput="handleIpt(this.value, 'address2')"/>
             </div>
-            <div class="submit-btn-box">
+            <div class="submit-btn-box submit-btn-box2">
               <img src="static/res/btn_receive.png" class="bg-btn" alt="submit" />
               <span class="btn-title" onclick="handleSubmitInfo()">确认提交</span>
             </div>
@@ -172,7 +172,7 @@
             <div class="my-prize-header">
               <div class="my-prize-header-left">
                 <span class="dialog-title my-prize-title2">// 我的奖品 _</span>
-                <span class="prize-name">京东卡100元</span>
+                <span class="prize-name"></span>
               </div>
               <div class="my-prize-header-right">
                 <img class="comm-bg" src="static/res/rect6.png" alt="bg" />
@@ -181,15 +181,18 @@
             </div>
             <div class="bl"></div>
             <span class="dialog-title2">// 奖品信息 _</span>
-            <div class="my-prize-line-box">
-              <span class="account">账号</span>
-              <span class="prize-info-text">AHJ15612DJP</span>
-              <span class="copy-btn">复制</span>
-            </div>
-            <div class="my-prize-line-box">
-              <span class="account">卡密</span>
-              <span class="prize-info-text">SAH41458332156</span>
-              <span class="copy-btn">复制</span>
+            <div class="my-prize-info-wrap">
+              <div class="my-prize-line-box my-prize-account-box">
+                <span class="account card-account">账号</span>
+                <span class="prize-info-text card-account-text"></span>
+                <span class="copy-btn" onclick="handleCopy('account')">复制</span>
+              </div>
+              <div class="my-prize-line-box my-prize-code-box">
+                <span class="account card-code">卡密</span>
+                <span class="prize-info-text card-code-text"></span>
+                <span class="copy-btn" onclick="handleCopy('code')">复制</span>
+              </div>
+              <span class="my-prize-address">浙江省 杭州市 西湖区 123456789132 123456789132</span>
             </div>
             <div class="icon-close2" onclick="handleClose('.my-prize-box', true)"></div>
           </div>
@@ -197,6 +200,8 @@
       </div>
     </div>
     <script src="static/scripts/h5-main.js"></script>
+    <script src="static/scripts/data-repo.js"></script>
+    <script src="static/scripts/mock.js"></script>
     <script type="text/javascript" src="https://static.games.wanmei.com/public/js/jq_183.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
     <script>
@@ -219,12 +224,14 @@
       //登录
       $('.userName').text(userStatus.nickName)
       console.log('loginState', 'has login')
+      window.nickName = userStatus.nickName
+      isLogin = true
     } else {
+      isLogin = false
       //未登录
       console.log('loginState', 'not login')
     }
     $('.logIn').on('click', function () {
-      console.log('loginxxxxx')
       $.islogin(true)
     })
 
@@ -247,8 +254,10 @@
     }
     sr.error = function(res){
         console.log(res)
+        noAccount = true
     }
     sr.change = function(res){
+        serverData = res
         console.log(res)
     }
   </script>
