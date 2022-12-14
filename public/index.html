@@ -199,9 +199,10 @@
         </div>
       </div>
     </div>
-    <script src="static/scripts/h5-main.js"></script>
     <script src="static/scripts/data-repo.js"></script>
     <script src="static/scripts/mock.js"></script>
+    <script src="static/scripts/h5-main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch-jsonp/1.2.3/fetch-jsonp.min.js"></script>
     <script type="text/javascript" src="https://static.games.wanmei.com/public/js/jq_183.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
     <script>
@@ -258,7 +259,7 @@
     }
     sr.change = function(res){
         serverData = res
-        console.log(res)
+        console.log('server data', res)
     }
   </script>
     <!--

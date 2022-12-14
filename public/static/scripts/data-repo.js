@@ -1,8 +1,9 @@
-const isTest = false
+const isTest = true
+const baseUrl = 'https://event.games.wanmei.com'
 
 function reqGet(api) {
   return new Promise((resolve, reject) => {
-    fetch(api, { method: 'GET', headers: { 'Content-Type': 'application/json' } })
+    fetchJsonp(`${baseUrl}${api}`, { method: 'GET', headers: { 'Content-Type': 'application/json' } })
       .then((res) => {
         return res.json()
       })

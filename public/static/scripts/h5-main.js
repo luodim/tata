@@ -92,14 +92,8 @@ noAccountContentNode &&
 
 displayCtrl(h5Node, true)
 
-function handleLoginClick() {
-  console.log('login click')
-  showAnimCtrl(loadingContentNode, false)
-  showModal(mockTestCount % 2 === 0 ? loginDialogBoxNode : noAccountDialogNode, true)
-  mockTestCount++
-}
-
 async function handleConfirm() {
+  if (isTest) serverData = serverDataMock
   if (!serverData) return
   const { serverId, roleId } = serverData
   if (!serverId || !roleId) return
@@ -296,14 +290,16 @@ window.onClickGift = () => {
   }
 }
 
-let count = 0
-// mock
-const timer = setInterval(() => {
-  if (count >= 100) {
-    timer && clearInterval(timer)
-    onLoadComplete()
-  } else {
-    count++
-    onLoadProgress(count / 100)
-  }
-}, 20)
+if (isTest) {
+  let count = 0
+  // mock
+  const timer = setInterval(() => {
+    if (count >= 100) {
+      timer && clearInterval(timer)
+      onLoadComplete()
+    } else {
+      count++
+      onLoadProgress(count / 100)
+    }
+  }, 20)
+}
