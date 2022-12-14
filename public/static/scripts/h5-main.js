@@ -1,3 +1,5 @@
+const tipsDuration = 500
+
 let mockTestCount = 0
 let isLogin = false
 let noAccount = false
@@ -33,6 +35,16 @@ function scaleCtrl(node, scaleX = 1, scaleY = 1) {
 function setText(node, text) {
   if (!node) return
   node.innerHTML = text
+}
+
+function setSrc(node, url) {
+  if (!node) return
+  node.src = url
+}
+
+function setCls(node, cls) {
+  if (!node) return
+  node.className = cls
 }
 
 function showModalAnimCtrl(box, mask, content, state) {
@@ -85,6 +97,10 @@ const codeText = getNode('.card-code-text')
 const accountBox = getNode('.my-prize-account-box')
 const codeBox = getNode('.my-prize-code-box')
 const myPrizeAddrss = getNode('.my-prize-address')
+const prizeImg = getNode('.img-prize')
+const prizeImg2 = getNode('.register-box-prize-img')
+const prizeImg3 = getNode('.my-prize-img')
+const btnRegister = getNode('.bg-btn3')
 
 noAccountContentNode &&
   (noAccountContentNode.innerHTML = `您在幻塔中没有创建过角色,不如到应
@@ -92,25 +108,7 @@ noAccountContentNode &&
 
 displayCtrl(h5Node, true)
 
-async function handleConfirm() {
-  if (isTest) serverData = serverDataMock
-  if (!serverData) return
-  const { serverId, roleId } = serverData
-  if (!serverId || !roleId) return
-  const res = await reqGameData(roleId, serverId)
-  window.gameData = res.result.info
-  updateUserInfo()
-  showAnimCtrl(loginDialogBoxNode, false)
-  scaleCtrl(loginDialogBoxNode, 0.5, 0.5)
-  showAnimCtrl(bgLoadingNode, false)
-  showAnimCtrl(tipsNode, true)
-  setTimeout(() => {
-    showModal(tipsNode, false)
-    displayCtrl(h5Node, false)
-    window.onGameInit && window.onGameInit()
-  }, 2500)
-}
-
+// 无账户点击确认后路由到完美幻塔首页
 function handleDownload() {
   window.open('https://ht.wanmei.com/', '_self')
   displayCtrl(h5Node, false)
@@ -122,17 +120,55 @@ function handleClose(contentNodeName, needChange) {
   if (needChange) displayCtrl(h5Node, false)
 }
 
-function handleSelectChange(e) {
-  console.log(e)
+// 更新奖品信息
+function setPrizeInfo() {
+  const data = getPrizeData()
+  if (!data) return
+  const pid = data.pageId
+  const el = prizeConfig[`${pid}`]
+  if (el && el.pic) {
+    setSrc(prizeImg, el.pic)
+    setSrc(prizeImg2, el.pic)
+    setSrc(prizeImg3, el.pic)
+  }
+  if (data.prizeName) {
+    setText(prizeName, data.prizeName)
+    setText(prizeName2, data.prizeName)
+  }
 }
 
+// 更新用户信息
 async function updateUserInfo() {
   const res2 = await reqUserInfo()
   window.userInfo = res2.result
+  console.log('update user info', window.userInfo, res2.result)
+  setPrizeInfo()
+  window.setLotteryState && window.setLotteryState(getUserData() && getUserData().lotteryed === 0)
 }
 
+// 登录窗口确定点击
+async function handleConfirm() {
+  if (isTest) serverData = serverDataMock
+  if (!serverData) return
+  const { serverId, roleId } = serverData
+  if (!serverId || !roleId) return
+  const res = await reqGameData(roleId, serverId)
+  window.gameData = res.result.info
+  updateUserInfo()
+  showAnimCtrl(loginDialogBoxNode, false)
+  showAnimCtrl(bgLoadingNode, false)
+  showAnimCtrl(tipsNode, true)
+  setTimeout(() => {
+    showModal(tipsNode, false)
+    displayCtrl(h5Node, false)
+    window.onGameInit && window.onGameInit()
+  }, tipsDuration)
+}
+
+// 分享故事提交
 async function handleSubmit() {
   const res = await reqShareStory(storyContent)
+  console.log(res)
   if (res.status === 1000) {
     // todo
     updateUserInfo()
@@ -141,6 +177,7 @@ async function handleSubmit() {
   displayCtrl(h5Node, false)
 }
 
+// 地址绑定提交
 async function handleSubmitInfo() {
   if (!registerData || !registerData.name || !registerData.phone) return
   const res = await reqAddress(
@@ -157,6 +194,7 @@ async function handleSubmitInfo() {
   displayCtrl(h5Node, false)
 }
 
+// 点击进行地址绑定流程的按钮
 function handleRegister() {
   showModal(receivePrizeNode, false)
   if (giftType === 11) {
@@ -174,6 +212,10 @@ function getUserData() {
 function getPrizeData() {
   if (window.userInfo && window.userInfo.myPrize) return window.userInfo.myPrize
   return null
+}
+
+function handleTAChange(v) {
+  storyContent = v
 }
 
 function handleIpt(v, id) {
@@ -238,13 +280,17 @@ window.onClickShareStory = () => {
   showModal(shareStoryNode, true)
 }
 
+// 生成海报后
+window.onClickSharePoster = async () => {}
+
 /**
  * 点击抽奖按钮
- * @param {*} hasPrize 是否中奖
  */
 window.onClickLottory = async () => {
   const res = await reqLottery()
-  const hasPrize = Boolean(res && res.result && res.result.pageId !== null)
+  const hasPrize = Boolean(
+    res && res.result && res.result.pageId !== undefined && res.result.pageId !== null
+  )
   giftType = res && res.result ? res.result.type : 12
   updateUserInfo()
   displayCtrl(h5Node, true)
@@ -252,9 +298,8 @@ window.onClickLottory = async () => {
     setText(noPrizeTitle, '// 很遗憾，大奖擦肩而过 _')
     setText(noPrizeContent, '别灰心，打开游戏刷刷地图吧！')
   } else {
-    setText(prizeName, getPrizeData() && getPrizeData().prizeName ? getPrizeData().prizeName : '')
-    setText(prizeName2, getPrizeData() && getPrizeData().prizeName ? getPrizeData().prizeName : '')
     setText(btnGetPrizeName, giftType === 11 ? '前往登记领奖地址' : '确定')
+    setCls(btnRegister, giftType === 11 ? 'bg-btn2' : 'bg-btn3')
   }
   showModal(hasPrize ? receivePrizeNode : noPrizeNode, true)
 }

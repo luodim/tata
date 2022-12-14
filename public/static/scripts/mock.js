@@ -29,7 +29,7 @@ const serverDataMock = {
   },
 }
 
-const userInfo = {
+const userInfoMock = {
   success: true,
   requestName: 'initUser',
   status: 1000,
@@ -44,9 +44,9 @@ const userInfo = {
       date: null,
       ip: null,
       uniqueLock: null,
-      prizeName: '京东卡',
+      prizeName: '屈臣氏SPA服务券',
       prize: null,
-      pageId: 3,
+      pageId: 9,
       card: '103:948',
       address: '***hhhh',
       phone: '188****2222',
@@ -69,7 +69,7 @@ const userInfo = {
   },
 }
 
-const gameData = {
+const gameDataMock = {
   success: true,
   requestName: 'getRoleInfo',
   status: 1000,
@@ -122,7 +122,7 @@ const gameData = {
   },
 }
 
-const codeData = {
+const codeDataMock = {
   success: true,
   requestName: 'sendCode',
   status: 1001,
@@ -133,7 +133,7 @@ const codeData = {
   },
 }
 
-const shareResponse = {
+const shareResponseMock = {
   success: false,
   requestName: 'share',
   status: -3001,
@@ -142,7 +142,7 @@ const shareResponse = {
   result: {},
 }
 
-const lotteryData = {
+const lotteryDataMock = {
   success: true,
   requestName: 'lottery',
   status: 1000,
@@ -155,7 +155,7 @@ const lotteryData = {
   },
 }
 
-const addressData = {
+const addressDataMock = {
   success: true,
   requestName: 'address',
   status: 1000,
