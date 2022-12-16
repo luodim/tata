@@ -1,4 +1,4 @@
-const tipsDuration = 2500
+const tipsDuration = isTest ? 100 : 2500
 
 let mockTestCount = 0
 let isLogin = false
@@ -26,9 +26,11 @@ function setOp(node, op) {
   node.style.opacity = op
 }
 
-function scaleCtrl(node, scaleX = 1, scaleY = 1) {
+function scaleCtrl(node, scaleX = 1, scaleY = 1, deg) {
   if (!node) return
-  node.style.transform = `scale(${scaleX}, ${scaleY})`
+  node.style.transform = deg
+    ? `rotate(${deg}deg) scale(${scaleX}, ${scaleY})`
+    : `scale(${scaleX}, ${scaleY})`
   node.style.transition = `transform 0.3s ease`
 }
 
@@ -47,17 +49,17 @@ function setCls(node, cls) {
   node.className = cls
 }
 
-function showModalAnimCtrl(box, mask, content, state) {
+function showModalAnimCtrl(box, mask, content, state, deg) {
   if (!box || !mask || !content) return
   box.style.zIndex = '99'
   showAnimCtrl(mask, state, '0', '0.3', '0', '0')
   showAnimCtrl(content, state, '0', '1', '0', '1')
-  scaleCtrl(content, state ? '1' : '0.5', state ? '1' : '0.5')
+  scaleCtrl(content, state ? '1' : '0.5', state ? '1' : '0.5', deg)
 }
 
-function showModal(contentNode, state) {
+function showModal(contentNode, state, deg) {
   if (!contentNode || !modalBoxNode || !modalMaskNode) return
-  showModalAnimCtrl(modalBoxNode, modalMaskNode, contentNode, state)
+  showModalAnimCtrl(modalBoxNode, modalMaskNode, contentNode, state, deg)
 }
 
 function getNode(selector) {
@@ -101,6 +103,9 @@ const prizeImg = getNode('.img-prize')
 const prizeImg2 = getNode('.register-box-prize-img')
 const prizeImg3 = getNode('.my-prize-img')
 const btnRegister = getNode('.bg-btn3')
+const copyTipsNode = getNode('.copy-tips')
+const registerBox = getNode('.register-btn-box2')
+const prizeName3 = getNode('.prize-name2')
 
 noAccountContentNode &&
   (noAccountContentNode.innerHTML = `您还没有创建角色哦，
@@ -114,9 +119,9 @@ function handleDownload() {
   displayCtrl(h5Node, false)
 }
 
-function handleClose(contentNodeName, needChange) {
+function handleClose(contentNodeName, needChange, deg) {
   const contentNode = getNode(contentNodeName)
-  contentNode && showModal(contentNode, false)
+  contentNode && showModal(contentNode, false, deg)
   if (needChange) displayCtrl(h5Node, false)
 }
 
@@ -143,7 +148,7 @@ async function updateUserInfo() {
   window.userInfo = res2.result
   console.log('update user info', JSON.stringify(window.userInfo))
   setPrizeInfo()
-  window.setLotteryState && window.setLotteryState(getUserData() && getUserData().lotteryed === 0)
+  window.setLotteryState && window.setLotteryState()
 }
 
 // 登录窗口确定点击
@@ -171,15 +176,17 @@ async function handleSubmit() {
   console.log(res)
   if (res.status === 1000) {
     // todo
-    updateUserInfo()
   }
+  updateUserInfo()
   showModal(shareStoryNode, false)
   displayCtrl(h5Node, false)
 }
 
 // 地址绑定提交
 async function handleSubmitInfo() {
-  if (!registerData || !registerData.name || !registerData.phone) return
+  if (!registerData || !registerData.name || !registerData.phone) {
+    return
+  }
   const res = await reqAddress(
     `${registerData.address} ${registerData.address2}`,
     registerData.name,
@@ -188,18 +195,20 @@ async function handleSubmitInfo() {
   console.log(res)
   if (res.status === 1000) {
     // todo
-    updateUserInfo()
   }
+  updateUserInfo()
   showModal(registerPrizeNode, false)
   displayCtrl(h5Node, false)
 }
 
 // 点击进行地址绑定流程的按钮
 function handleRegister() {
-  showModal(receivePrizeNode, false)
+  console.log(giftType, 'handle register')
   if (giftType === 11) {
+    showModal(myPrizeNode, false, 90)
     showModal(registerPrizeNode, true)
   } else {
+    showModal(receivePrizeNode, false, 90)
     displayCtrl(h5Node, false)
   }
 }
@@ -253,6 +262,15 @@ function handleCopy(id) {
   }
 }
 
+function isSTGift() {
+  const data = getPrizeData()
+  if (data) {
+    const id = data.pageId
+    return (Number(id) !== 6 && Number(id) !== 7) 
+  }
+  return false
+}
+
 window.onLoadProgress = (progress) => {
   progress = progress > 1 ? 1 : progress
   if (progressBlueNode) progressBlueNode.style.width = `${progress * 100}%`
@@ -298,10 +316,13 @@ window.onClickLottory = async () => {
     setText(noPrizeTitle, '// 很遗憾，大奖擦肩而过 _')
     setText(noPrizeContent, '别灰心~打开游戏跑跑地图！')
   } else {
+    const d = getPrizeData()
+    const name = d && d.prizeName || ''
+    setText(prizeName3, name)
     setText(btnGetPrizeName, giftType === 11 ? '前往登记领奖地址' : '确定')
     setCls(btnRegister, giftType === 11 ? 'bg-btn2' : 'bg-btn3')
   }
-  showModal(hasPrize ? receivePrizeNode : noPrizeNode, true)
+  showModal(hasPrize ? receivePrizeNode : noPrizeNode, true, 90)
 }
 
 /**
@@ -309,21 +330,44 @@ window.onClickLottory = async () => {
  */
 window.onMyPrizeClick = () => {
   const hasPrize = Boolean(window.userInfo && window.userInfo.myPrize)
+  giftType = isSTGift() ? 11 : 12
+  console.log(giftType)
   displayCtrl(h5Node, true)
+  // debugger
   if (!hasPrize) {
     setText(noPrizeTitle, '// 我的奖品')
     setText(noPrizeContent, '您还没有抽到奖品哦')
-    showModal(noPrizeNode, true)
   } else {
-    setText(myPrizeInfo, window.userInfo.myPrize.address ? '// 领奖邮寄地址 _' : '// 奖品信息 _')
+    if (giftType === 11) {
+      setText(myPrizeInfo, '// 领奖邮寄地址 _')
+      if (window.userInfo.myPrize.address) {
+        setText(myPrizeAddrss, window.userInfo.myPrize.address)
+        displayCtrl(registerBox, false)
+      } else {
+        setText('还未绑定领奖地址哦')
+        displayCtrl(registerBox, true)
+      }
+      setOp(accountBox, 0)
+      setOp(codeBox, 0)
+      setOp(copyTipsNode, 0)
+      setOp(myPrizeAddrss, 1)
+    } else {
+      displayCtrl(registerBox, false)
+      setText(myPrizeInfo, '// 奖品信息 _')
+      setOp(accountBox, 1)
+      setOp(codeBox, 1)
+      setOp(copyTipsNode, 1)
+      setOp(myPrizeAddrss, 0)
+    }
     setText(prizeName, getPrizeData() && getPrizeData().prizeName ? getPrizeData().prizeName : '')
     setText(accountText, getPrizeData() && getPrizeData().card ? getPrizeData().card : '')
     setText(codeText, getUserData() && getUserData().code ? getUserData().code : '')
-    setOp(accountBox, window.userInfo.myPrize.address ? 0 : 1)
-    setOp(codeBox, window.userInfo.myPrize.address ? 0 : 1)
-    setOp(myPrizeAddrss, window.userInfo.myPrize.address ? 1 : 0)
+    // setOp(accountBox, window.userInfo.myPrize.address ? 1 : 0)
+    // setOp(codeBox, window.userInfo.myPrize.address ? 1 : 0)
+    // setOp(copyTipsNode, window.userInfo.myPrize.address ? 0 : 1)
+    // setOp(myPrizeAddrss, window.userInfo.myPrize.address ? 1 : 0)
   }
-  showModal(hasPrize ? myPrizeNode : noPrizeNode, true)
+  showModal(hasPrize ? myPrizeNode : noPrizeNode, true, 90)
 }
 
 // 用户点击游戏礼品按钮

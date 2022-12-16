@@ -48,7 +48,8 @@ const userInfoMock = {
       prize: null,
       pageId: 9,
       card: '103:948',
-      address: '***hhhh',
+      // address: '***hhhh',
+      address: '',
       phone: '188****2222',
       name: '12*4',
       defaultStatus: null,
@@ -150,7 +151,7 @@ const lotteryDataMock = {
   traceId: '6991ca839a86422ba13990600963d158',
   result: {
     prizeName: '京东卡',
-    type: 12,
+    type: 11,
     pageId: 3,
   },
 }

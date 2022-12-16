@@ -227,6 +227,15 @@ body {
   transform: scale(0.5, 0.5);
 }
 
+.copy-tips {
+  font-family: HYQiHei;
+  font-weight: normal;
+  color: #2166f0;
+  font-size: 16rem;
+  opacity: 0.75;
+  margin-top: 5rem;
+}
+
 .comm-bg {
   width: 100%;
   height: 100%;
@@ -334,6 +343,16 @@ body {
   height: 384rem;
 }
 
+.dialog-subtitle {
+  font-size: 26rem;
+  font-family: HYQiHei;
+  font-weight: normal;
+  color: #2166f0;
+  margin: 5rem 0;
+  position: relative;
+  opacity: 0.7;
+}
+
 .no-account-dialog-title {
   font-size: 34rem;
   font-family: HYQiHei;
@@ -417,7 +436,7 @@ body {
   width: 498rem;
   height: 367rem;
   position: relative;
-  margin-top: 68rem;
+  margin-top: 45rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -464,7 +483,7 @@ body {
 }
 
 .submit-btn-box2 {
-  margin-top: 60rem;
+  margin-top: 40rem;
   width: 287rem;
   height: 63rem;
   position: relative;
@@ -477,6 +496,13 @@ body {
   height: 100%;
   width: 100%;
   object-fit: contain;
+  position: absolute;
+}
+
+.bg-btn-fill {
+  height: 100%;
+  width: 100%;
+  object-fit: fill;
   position: absolute;
 }
 
@@ -514,6 +540,17 @@ body {
 .receive-prize-box {
   width: 662rem;
   height: 402rem;
+  transform: rotate(90deg);
+}
+
+.prize-name2 {
+  font-size: 26rem;
+  font-family: HYQiHei;
+  font-weight: normal;
+  color: #2166f0;
+  margin: 5rem 0;
+  position: relative;
+  opacity: 0.7;
 }
 
 .receive-prize-title {
@@ -529,6 +566,7 @@ body {
 
 .prize-box {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
@@ -550,7 +588,20 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 35rem;
+  margin-top: 5rem;
+}
+
+.register-btn-box2 {
+  width: 360rem;
+  height: 70rem;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  bottom: 50rem;
+  margin: auto;
 }
 
 .icon-close2 {
@@ -564,6 +615,7 @@ body {
 .no-prize-box {
   width: 517rem;
   height: 295rem;
+  transform: rotate(90deg);
 }
 
 .no-prize-content {
@@ -688,11 +740,12 @@ body {
 }
 
 .submit-tips {
+  width: 530rem;
   font-size: 21rem;
   font-weight: 400;
   color: #799ee8;
   opacity: 0.8;
-  margin-top: 22rem;
+  margin-top: 30rem;
 }
 
 .my-prize-title {
@@ -701,7 +754,8 @@ body {
 
 .my-prize-box {
   width: 692rem;
-  height: 432rem;
+  height: 472rem;
+  transform: rotate(90deg);
 }
 
 .my-prize-header {
@@ -773,7 +827,7 @@ body {
 .my-prize-line-box {
   width: 485rem;
   height: 45rem;
-  margin-bottom: 24rem;
+  margin-bottom: 12rem;
   position: relative;
   display: flex;
   align-items: center;

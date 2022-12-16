@@ -37,6 +37,7 @@
     <div id="h5-container">
       <div class="loading-wrap">
         <img src="static/res/bg_loading.png" alt="bg-loading" class="bg-loading" />
+        <!-- loading部分 -->
         <div class="loading-content-box">
           <div class="loading-rect-box">
             <img src="static/res/rect.png" alt="rect" class="loading-rect1" />
@@ -122,6 +123,7 @@
               <img src="static/res/rect6.png" class="bg-rect" alt="bg" />
               <img class="img-prize" alt="prize" />
             </div>
+            <span class="prize-name2"></span>
             <div class="register-btn-box">
               <img
                 src="static/res/btn_receive.png"
@@ -133,14 +135,14 @@
                 >前往登记领奖地址</span
               >
             </div>
-            <div class="icon-close2" onclick="handleClose('.receive-prize-box', true)"></div>
+            <div class="icon-close2" onclick="handleClose('.receive-prize-box', true, 90)"></div>
           </div>
           <!-- 未中奖弹窗 -->
           <div class="no-prize-box comm-dialog-content-box">
             <img src="static/res/rect4.png" class="comm-bg2" alt="bg" />
             <span class="dialog-title no-prize-title">// 我的奖品</span>
             <span class="no-prize-content">您还没有抽到奖品哦</span>
-            <div class="icon-close2" onclick="handleClose('.no-prize-box', true)"></div>
+            <div class="icon-close2" onclick="handleClose('.no-prize-box', true, 90)"></div>
           </div>
           <!-- 领奖登记 -->
           <div class="register-prize-box comm-dialog-content-box">
@@ -157,7 +159,7 @@
               <span class="tag-title">待领奖</span>
             </div>
             <div class="line-box line1">
-              <input class="ipt name" placeholder="姓名" oninput="handleIpt(this.value, 'name')" />
+              <input class="ipt name" placeholder="收件人" oninput="handleIpt(this.value, 'name')" />
               <input
                 class="ipt phone"
                 placeholder="手机号"
@@ -178,11 +180,12 @@
                 oninput="handleIpt(this.value, 'address2')"
               />
             </div>
+            <span class="submit-tips">点击确认提交“即代表您同意我们为邮寄奖品之目的收集您的收件信息”</span>
             <div class="submit-btn-box submit-btn-box2">
-              <img src="static/res/btn_receive.png" class="bg-btn" alt="submit" />
+              <img src="static/res/btn_receive.png" class="bg-btn-fill" alt="submit" />
               <span class="btn-title" onclick="handleSubmitInfo()">确认提交</span>
             </div>
-            <span class="submit-tips">请仔细填写，提交后无法修改</span>
+            <!-- <span class="submit-tips">请仔细填写，提交后无法修改</span> -->
             <img
               src="static/res/icon_close.png"
               alt="close"
@@ -192,7 +195,7 @@
           </div>
           <!-- 我的奖品 -->
           <div class="my-prize-box comm-dialog-content-box">
-            <img src="static/res/rect4.png" class="comm-bg2" alt="bg" />
+            <img src="static/res/rect4.png" class="comm-bg" alt="bg" />
             <div class="my-prize-header">
               <div class="my-prize-header-left">
                 <span class="dialog-title my-prize-title2">// 我的奖品 _</span>
@@ -216,9 +219,21 @@
                 <span class="prize-info-text card-code-text"></span>
                 <span class="copy-btn" onclick="handleCopy('code')">复制</span>
               </div>
-              <span class="my-prize-address">浙江省 杭州市 西湖区 123456789132 123456789132</span>
+              <span class="copy-tips">应用不会上传或存储您的剪切板信息</span>
+              <span class="my-prize-address"></span>
+              <div class="register-btn-box2">
+                <img
+                  src="static/res/btn_receive.png"
+                  class="bg-btn-fill"
+                  alt="submit"
+                  style="margin-left: 20rem"
+                />
+                <span class="btn-title btn-title-get-prize" onclick="handleRegister()"
+                  >前往登记领奖地址</span
+                >
+              </div>
             </div>
-            <div class="icon-close2" onclick="handleClose('.my-prize-box', true)"></div>
+            <div class="icon-close2" onclick="handleClose('.my-prize-box', true, 90)"></div>
           </div>
         </div>
       </div>
@@ -292,16 +307,7 @@
         if (res && res.roleData && res.roleData.roleName) window.nickName = res.roleData.roleName
       }
     </script>
-    <script type="text/javascript">
-      if (
-        /(iPhone|iPad|iPod|iOS|Android|Windows Phone|BlackBerry|SymbianOS)/i.test(
-          navigator.userAgent
-        )
-      ) {
-        console.log('is pc')
-        // window.open('https://ht.wanmei.com/', '_self')
-      }
-    </script>
+    <script type="text/javascript" src="https://static.games.wanmei.com/public/js/stat.js"></script>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
