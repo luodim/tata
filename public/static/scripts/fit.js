@@ -19,4 +19,17 @@ function fit() {
   window.onresize = setRem
   setRem()
 }
+
+function needRouter() {
+  if (!(
+    /(iPhone|iPad|iPod|iOS|Android|Windows Phone|BlackBerry|SymbianOS)/i.test(
+      navigator.userAgent
+    )
+  )) {
+    console.log('is pc')
+    window.open('https://ht.wanmei.com/', '_self')
+  }
+}
+
 fit()
+needRouter()

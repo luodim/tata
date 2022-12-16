@@ -1,4 +1,4 @@
-const tipsDuration = 500
+const tipsDuration = 2500
 
 let mockTestCount = 0
 let isLogin = false
@@ -103,8 +103,8 @@ const prizeImg3 = getNode('.my-prize-img')
 const btnRegister = getNode('.bg-btn3')
 
 noAccountContentNode &&
-  (noAccountContentNode.innerHTML = `您在幻塔中没有创建过角色,不如到应
-用商店下载游戏玩玩~`)
+  (noAccountContentNode.innerHTML = `您还没有创建角色哦，
+不如先来这里看看`)
 
 displayCtrl(h5Node, true)
 
@@ -141,7 +141,7 @@ function setPrizeInfo() {
 async function updateUserInfo() {
   const res2 = await reqUserInfo()
   window.userInfo = res2.result
-  console.log('update user info', window.userInfo, res2.result)
+  console.log('update user info', JSON.stringify(window.userInfo))
   setPrizeInfo()
   window.setLotteryState && window.setLotteryState(getUserData() && getUserData().lotteryed === 0)
 }
@@ -296,7 +296,7 @@ window.onClickLottory = async () => {
   displayCtrl(h5Node, true)
   if (!hasPrize) {
     setText(noPrizeTitle, '// 很遗憾，大奖擦肩而过 _')
-    setText(noPrizeContent, '别灰心，打开游戏刷刷地图吧！')
+    setText(noPrizeContent, '别灰心~打开游戏跑跑地图！')
   } else {
     setText(btnGetPrizeName, giftType === 11 ? '前往登记领奖地址' : '确定')
     setCls(btnRegister, giftType === 11 ? 'bg-btn2' : 'bg-btn3')

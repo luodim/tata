@@ -24,7 +24,7 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <title>幻想之旅-幻塔周年记忆</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -85,7 +85,7 @@
             <span class="no-account-dialog-text"></span>
             <div class="download-confirm-btn-box" onclick="handleDownload()">
               <img src="static/res/btn-download.png" class="download-confirm-btn" alt="btn" />
-              <span class="download-btn-title">前往应用商城下载幻塔</span>
+              <span class="download-btn-title">前往幻塔官网</span>
             </div>
           </div>
           <!-- 横屏引导内容 -->
@@ -93,10 +93,15 @@
           <!-- 分享故事弹窗 -->
           <div class="share-story-box comm-dialog-content-box">
             <img src="static/res/rect5.png" class="comm-bg" alt="bg" />
-            <span class="dialog-title">// 请分享与幻塔一同成长的故事</span>
+            <span class="dialog-title">// 请分享与塔塔一同成长的故事</span>
+            <span class="dialog-subtitle">首次分享可获得一次抽大奖机会哦</span>
             <div class="ipt-area-box">
               <img src="static/res/rect6.png" class="bg-rect" alt="bg" />
-              <textarea class="ipt-area" placeholder="输入分享与幻塔一同成长的故事... " oninput="handleTAChange(this.value)"></textarea>
+              <textarea
+                class="ipt-area"
+                placeholder="请输入与塔塔的美好故事 "
+                oninput="handleTAChange(this.value)"
+              ></textarea>
             </div>
             <div class="submit-btn-box">
               <img src="static/res/btn_receive.png" class="share-story-btn-bg" alt="submit" />
@@ -118,8 +123,15 @@
               <img class="img-prize" alt="prize" />
             </div>
             <div class="register-btn-box">
-              <img src="static/res/btn_receive.png" class="bg-btn3" alt="submit" style="margin-left:20rem"/>
-              <span class="btn-title btn-title-get-prize" onclick="handleRegister()">前往登记领奖地址</span>
+              <img
+                src="static/res/btn_receive.png"
+                class="bg-btn3"
+                alt="submit"
+                style="margin-left: 20rem"
+              />
+              <span class="btn-title btn-title-get-prize" onclick="handleRegister()"
+                >前往登记领奖地址</span
+              >
             </div>
             <div class="icon-close2" onclick="handleClose('.receive-prize-box', true)"></div>
           </div>
@@ -145,14 +157,26 @@
               <span class="tag-title">待领奖</span>
             </div>
             <div class="line-box line1">
-              <input class="ipt name" placeholder="姓名" oninput="handleIpt(this.value, 'name')"/>
-              <input class="ipt phone" placeholder="手机号" oninput="handleIpt(this.value, 'phone')"/>
+              <input class="ipt name" placeholder="姓名" oninput="handleIpt(this.value, 'name')" />
+              <input
+                class="ipt phone"
+                placeholder="手机号"
+                oninput="handleIpt(this.value, 'phone')"
+              />
             </div>
             <div class="line-box line2">
-              <input class="ipt ssq" placeholder="省市区" oninput="handleIpt(this.value, 'address')"/>
+              <input
+                class="ipt ssq"
+                placeholder="省市区"
+                oninput="handleIpt(this.value, 'address')"
+              />
             </div>
             <div class="line-box line3">
-              <input class="ipt address" placeholder="详细住址（如**街**号**）" oninput="handleIpt(this.value, 'address2')"/>
+              <input
+                class="ipt address"
+                placeholder="详细住址（如**街**号**）"
+                oninput="handleIpt(this.value, 'address2')"
+              />
             </div>
             <div class="submit-btn-box submit-btn-box2">
               <img src="static/res/btn_receive.png" class="bg-btn" alt="submit" />
@@ -203,65 +227,81 @@
     <script src="static/scripts/mock.js"></script>
     <script src="static/scripts/h5-main.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch-jsonp/1.2.3/fetch-jsonp.min.js"></script>
-    <script type="text/javascript" src="https://static.games.wanmei.com/public/js/jq_183.js"></script>
+    <script
+      type="text/javascript"
+      src="https://static.games.wanmei.com/public/js/jq_183.js"
+    ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
     <script>
       const sound = new Howl({
-        src: ['static/audio/bgm.mp3'],
+        src: ['https://webdownload.wmupd.com/webdownload/client/ht_bgmusic_20210705.mp3'],
         autoplay: true,
         loop: true,
       })
       sound.play()
-      window.onMute = mute => {
+      window.onMute = (mute) => {
         Howler.volume(mute ? 0 : 0.5)
       }
     </script>
     <script
-    type="text/javascript"
-    src="https://static.games.wanmei.com/public/js/id_wmlogin.js"
-  ></script>
-  <script type="text/javascript">
-    if ($.islogin()) {
-      //登录
-      $('.userName').text(userStatus.nickName)
-      console.log('loginState', 'has login')
-      window.nickName = userStatus.nickName
-      isLogin = true
-    } else {
-      isLogin = false
-      //未登录
-      console.log('loginState', 'not login')
-    }
-    $('.logIn').on('click', function () {
-      $.islogin(true)
-    })
+      type="text/javascript"
+      src="https://static.games.wanmei.com/public/js/id_wmlogin.js"
+    ></script>
+    <script type="text/javascript">
+      if ($.islogin()) {
+        //登录
+        $('.userName').text(userStatus.nickName)
+        console.log('loginState', 'has login')
+        isLogin = true
+      } else {
+        isLogin = false
+        //未登录
+        console.log('loginState', 'not login')
+      }
+      $('.logIn').on('click', function () {
+        $.islogin(true)
+      })
 
-    //退出
-    $('.logOut').on('click', function () {
-      logout()
-    })
-  </script>
-  <script type="text/javascript" src="https://static.games.wanmei.com/public/js/mobileGames-server-role.js"></script>
-  <script type="text/javascript">
-    var sr = $.serverRole({
-        data : {
-            event : 'ht'//这里需 要传的是某游戏的名字，可以找程序要比如：xmz
+      //退出
+      $('.logOut').on('click', function () {
+        logout()
+      })
+    </script>
+    <script
+      type="text/javascript"
+      src="https://static.games.wanmei.com/public/js/mobileGames-server-role.js"
+    ></script>
+    <script type="text/javascript">
+      var sr = $.serverRole({
+        data: {
+          event: 'ht', //这里需 要传的是某游戏的名字，可以找程序要比如：xmz
         },
-        serverNode : $('#server'),
-        roleNode : $('#role')
-    });
-    sr.load = function(res){
-        console.log(res)
-    }
-    sr.error = function(res){
+        serverNode: $('#server'),
+        roleNode: $('#role'),
+      })
+      sr.load = function (res) {
+        console.log('sr load', res)
+      }
+      sr.error = function (res) {
         console.log(res)
         noAccount = true
-    }
-    sr.change = function(res){
-        serverData = res
+      }
+      sr.change = function (res) {
         console.log('server data', res)
-    }
-  </script>
+        serverData = res
+        if (res && res.roleData && res.roleData.roleName) window.nickName = res.roleData.roleName
+      }
+    </script>
+    <script type="text/javascript">
+      if (
+        /(iPhone|iPad|iPod|iOS|Android|Windows Phone|BlackBerry|SymbianOS)/i.test(
+          navigator.userAgent
+        )
+      ) {
+        console.log('is pc')
+        // window.open('https://ht.wanmei.com/', '_self')
+      }
+    </script>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

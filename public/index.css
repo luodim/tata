@@ -61,7 +61,3 @@ html, body {
   height: 100vh;
   overflow: hidden;
 }
-
-#GameDiv {
-  background: url(./static/res/bg_test.png);
-}
