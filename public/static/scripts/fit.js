@@ -14,7 +14,8 @@ function fit() {
       node && (node.style.transform = `rotate(0deg)`)
       // doOffset(node, true)
     }
-    document.documentElement.style.fontSize = scale + 'px'
+    // 解决uc浏览器rem自适应问题（当根标签html字体小于12px时，按照12px绘制）
+    document.documentElement.style.fontSize = scale * 10 + 'px'
   }
   window.onresize = setRem
   setRem()
@@ -27,7 +28,8 @@ function needRouter() {
     )
   )) {
     console.log('is pc')
-    window.open('https://ht.wanmei.com/', '_self')
+    window.isPC = true
+    // window.open('https://ht.wanmei.com/', '_self')
   }
 }
 

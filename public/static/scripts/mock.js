@@ -150,9 +150,9 @@ const lotteryDataMock = {
   message: 'service success',
   traceId: '6991ca839a86422ba13990600963d158',
   result: {
-    prizeName: '京东卡',
-    type: 11,
-    pageId: 3,
+    prizeName: '屈臣氏SPA服务券',
+    type: 12,
+    pageId: 9,
   },
 }
 

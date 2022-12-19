@@ -129,7 +129,7 @@
                 src="static/res/btn_receive.png"
                 class="bg-btn3"
                 alt="submit"
-                style="margin-left: 20rem"
+                style="margin-left: 2rem"
               />
               <span class="btn-title btn-title-get-prize" onclick="handleRegister()"
                 >前往登记领奖地址</span
@@ -185,7 +185,7 @@
               <img src="static/res/btn_receive.png" class="bg-btn-fill" alt="submit" />
               <span class="btn-title" onclick="handleSubmitInfo()">确认提交</span>
             </div>
-            <!-- <span class="submit-tips">请仔细填写，提交后无法修改</span> -->
+            <span class="submit-tips2">请仔细填写，提交后无法修改</span>
             <img
               src="static/res/icon_close.png"
               alt="close"
@@ -208,12 +208,13 @@
             </div>
             <div class="bl"></div>
             <span class="dialog-title2">// 奖品信息 _</span>
+            <span class="qcs-tips">请复制以下激活码，登录屈臣氏小程序点击[我的]-[优惠券]-[兑换优惠券]即可使用</span>
             <div class="my-prize-info-wrap">
-              <div class="my-prize-line-box my-prize-account-box">
+              <!-- <div class="my-prize-line-box my-prize-account-box">
                 <span class="account card-account">账号</span>
                 <span class="prize-info-text card-account-text"></span>
                 <span class="copy-btn" onclick="handleCopy('account')">复制</span>
-              </div>
+              </div> -->
               <div class="my-prize-line-box my-prize-code-box">
                 <span class="account card-code">卡密</span>
                 <span class="prize-info-text card-code-text"></span>
@@ -226,7 +227,7 @@
                   src="static/res/btn_receive.png"
                   class="bg-btn-fill"
                   alt="submit"
-                  style="margin-left: 20rem"
+                  style="margin-left: 2rem"
                 />
                 <span class="btn-title btn-title-get-prize" onclick="handleRegister()"
                   >前往登记领奖地址</span
@@ -238,9 +239,13 @@
         </div>
       </div>
     </div>
+    <div class="pb-bg-wrap">
+      <img src="static/res/bg_pc.jpeg" alt="pc-bg" class="bg-pc"/>
+    </div>
     <script src="static/scripts/data-repo.js"></script>
     <script src="static/scripts/mock.js"></script>
     <script src="static/scripts/h5-main.js"></script>
+    <script src="dist/clipboard.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch-jsonp/1.2.3/fetch-jsonp.min.js"></script>
     <script
       type="text/javascript"

@@ -23,7 +23,13 @@ function showAnimCtrl(node, state, min = '0', max = '1', minZ = '-9', maxZ = '9'
 }
 
 function setOp(node, op) {
+  if (!node) return
   node.style.opacity = op
+}
+
+function setMargin(node, m) {
+  if (!node) return
+  node.style.margin = m
 }
 
 function scaleCtrl(node, scaleX = 1, scaleY = 1, deg) {
@@ -96,7 +102,8 @@ const btnGetPrizeName = getNode('.btn-title-get-prize')
 const myPrizeInfo = getNode('.dialog-title2')
 const accountText = getNode('.card-account-text')
 const codeText = getNode('.card-code-text')
-const accountBox = getNode('.my-prize-account-box')
+const codeNameNode = getNode('.card-code')
+// const accountBox = getNode('.my-prize-account-box')
 const codeBox = getNode('.my-prize-code-box')
 const myPrizeAddrss = getNode('.my-prize-address')
 const prizeImg = getNode('.img-prize')
@@ -106,12 +113,20 @@ const btnRegister = getNode('.bg-btn3')
 const copyTipsNode = getNode('.copy-tips')
 const registerBox = getNode('.register-btn-box2')
 const prizeName3 = getNode('.prize-name2')
+const qcsTipsNode = getNode('.qcs-tips')
+const wrapInfo = getNode('.my-prize-info-wrap')
+const pcBg = getNode('.pb-bg-wrap')
 
 noAccountContentNode &&
   (noAccountContentNode.innerHTML = `您还没有创建角色哦，
 不如先来这里看看`)
 
 displayCtrl(h5Node, true)
+
+if (pcBg) {
+  pcBg.style.zIndex = window.isPC ? '999' : '-999'
+  pcBg.style.opacity = window.isPC ? '1' : '0'
+}
 
 // 无账户点击确认后路由到完美幻塔首页
 function handleDownload() {
@@ -155,11 +170,12 @@ async function updateUserInfo() {
 async function handleConfirm() {
   if (isTest) serverData = serverDataMock
   if (!serverData) return
+  const res2 = await reqUserInfo()
+  if (res2)  window.userInfo = res2.result
   const { serverId, roleId } = serverData
   if (!serverId || !roleId) return
   const res = await reqGameData(roleId, serverId)
-  window.gameData = res.result.info
-  updateUserInfo()
+  if (res && res.result) window.gameData = res.result.info
   showAnimCtrl(loginDialogBoxNode, false)
   showAnimCtrl(bgLoadingNode, false)
   showAnimCtrl(tipsNode, true)
@@ -206,6 +222,7 @@ function handleRegister() {
   console.log(giftType, 'handle register')
   if (giftType === 11) {
     showModal(myPrizeNode, false, 90)
+    showModal(receivePrizeNode, false, 90)
     showModal(registerPrizeNode, true)
   } else {
     showModal(receivePrizeNode, false, 90)
@@ -241,32 +258,36 @@ function handleCopy(id) {
   } else if (id === 'code') {
     text = codeText ? codeText.innerHTML : ''
   }
-  if (navigator.clipboard) {
-    // clipboard api 复制
-    navigator.clipboard.writeText(text)
-  } else {
-    const textarea = document.createElement('textarea')
-    document.body.appendChild(textarea)
-    // 隐藏此输入框
-    textarea.style.position = 'fixed'
-    textarea.style.clip = 'rect(0 0 0 0)'
-    textarea.style.top = '10px'
-    // 赋值
-    textarea.value = text
-    // 选中
-    textarea.select()
-    // 复制
-    document.execCommand('copy', true)
-    // 移除输入框
-    document.body.removeChild(textarea)
-  }
+  const textarea = document.createElement('textarea')
+  document.body.appendChild(textarea)
+  // 隐藏此输入框
+  textarea.style.position = 'fixed'
+  textarea.style.clip = 'rect(0 0 0 0)'
+  textarea.style.top = '10px'
+  // 赋值
+  textarea.value = text
+  // 选中
+  textarea.select()
+  // 复制
+  document.execCommand('copy', true)
+  // 移除输入框
+  document.body.removeChild(textarea)
 }
 
 function isSTGift() {
   const data = getPrizeData()
   if (data) {
     const id = data.pageId
-    return (Number(id) !== 6 && Number(id) !== 7) 
+    return Number(id) !== 6 && Number(id) !== 7 && Number(id) !== 9
+  }
+  return false
+}
+
+function isQCS() {
+  const data = getPrizeData()
+  if (data) {
+    const id = data.pageId
+    return Number(id) === 9
   }
   return false
 }
@@ -306,10 +327,12 @@ window.onClickSharePoster = async () => {}
  */
 window.onClickLottory = async () => {
   const res = await reqLottery()
+
+  const pageId = res && res.result && res.result.pageId ||null
   const hasPrize = Boolean(
-    res && res.result && res.result.pageId !== undefined && res.result.pageId !== null
+    pageId !== undefined && pageId !== null
   )
-  giftType = res && res.result ? res.result.type : 12
+  giftType = (pageId !== 6 && pageId !== 7 && pageId !== 9) ? 11 : 12
   updateUserInfo()
   displayCtrl(h5Node, true)
   if (!hasPrize) {
@@ -317,7 +340,7 @@ window.onClickLottory = async () => {
     setText(noPrizeContent, '别灰心~打开游戏跑跑地图！')
   } else {
     const d = getPrizeData()
-    const name = d && d.prizeName || ''
+    const name = (res && res.result && res && res.result.prizeName) || (d && d.prizeName) || ''
     setText(prizeName3, name)
     setText(btnGetPrizeName, giftType === 11 ? '前往登记领奖地址' : '确定')
     setCls(btnRegister, giftType === 11 ? 'bg-btn2' : 'bg-btn3')
@@ -338,7 +361,7 @@ window.onMyPrizeClick = () => {
     setText(noPrizeTitle, '// 我的奖品')
     setText(noPrizeContent, '您还没有抽到奖品哦')
   } else {
-    if (giftType === 11) {
+    if (giftType === 11) { // 实体礼品
       setText(myPrizeInfo, '// 领奖邮寄地址 _')
       if (window.userInfo.myPrize.address) {
         setText(myPrizeAddrss, window.userInfo.myPrize.address)
@@ -347,35 +370,38 @@ window.onMyPrizeClick = () => {
         setText('还未绑定领奖地址哦')
         displayCtrl(registerBox, true)
       }
-      setOp(accountBox, 0)
       setOp(codeBox, 0)
       setOp(copyTipsNode, 0)
       setOp(myPrizeAddrss, 1)
-    } else {
+      setOp(qcsTipsNode, 0)
+    } else { // 虚拟礼品
       displayCtrl(registerBox, false)
-      setText(myPrizeInfo, '// 奖品信息 _')
-      setOp(accountBox, 1)
+      setText(myPrizeInfo, !isQCS() ? '// 奖品信息 _' : '// 券码信息 _')
+      setText(codeNameNode, !isQCS() ? '卡密' : '激活码')
+      if (isQCS()) {
+        setMargin(wrapInfo, '9rem 0 0 0')
+        setOp(qcsTipsNode, 1)
+      } else {
+        setMargin(wrapInfo, '1rem 0 0 0')
+        setOp(qcsTipsNode, 0)
+      }
       setOp(codeBox, 1)
       setOp(copyTipsNode, 1)
       setOp(myPrizeAddrss, 0)
     }
     setText(prizeName, getPrizeData() && getPrizeData().prizeName ? getPrizeData().prizeName : '')
-    setText(accountText, getPrizeData() && getPrizeData().card ? getPrizeData().card : '')
-    setText(codeText, getUserData() && getUserData().code ? getUserData().code : '')
-    // setOp(accountBox, window.userInfo.myPrize.address ? 1 : 0)
-    // setOp(codeBox, window.userInfo.myPrize.address ? 1 : 0)
-    // setOp(copyTipsNode, window.userInfo.myPrize.address ? 0 : 1)
-    // setOp(myPrizeAddrss, window.userInfo.myPrize.address ? 1 : 0)
+    // setText(accountText, getPrizeData() && getPrizeData().card ? getPrizeData().card : '')
+    setText(codeText, getPrizeData() && getPrizeData().card ? getPrizeData().card : '')
   }
   showModal(hasPrize ? myPrizeNode : noPrizeNode, true, 90)
 }
 
 // 用户点击游戏礼品按钮
-window.onClickGift = () => {
-  if (window.userInfo && window.userInfo.user && window.userInfo.user.code) {
-    window.handleGiftCB(window.userInfo.user.code)
-  } else {
-    window.handleGiftCB(null)
+window.onClickGift = async () => {
+  const res = await reqCode()
+  if (res && res.result) {
+    const { code } = res.result
+    window.handleGiftCB && window.handleGiftCB(code || '')
   }
 }
 
