@@ -185,7 +185,7 @@
               <img src="static/res/btn_receive.png" class="bg-btn-fill" alt="submit" />
               <span class="btn-title" onclick="handleSubmitInfo()">确认提交</span>
             </div>
-            <span class="submit-tips2">请仔细填写，提交后无法修改</span>
+            <!-- <span class="submit-tips2">请仔细填写，提交后无法修改</span> -->
             <img
               src="static/res/icon_close.png"
               alt="close"
@@ -221,7 +221,10 @@
                 <span class="copy-btn" onclick="handleCopy('code')">复制</span>
               </div>
               <span class="copy-tips">应用不会上传或存储您的剪切板信息</span>
-              <span class="my-prize-address"></span>
+              <div class="my-prize-address-box">
+                <span class="my-prize-address"></span>
+                <span class="modify-address" onclick="handleModify()">修改</span>
+              </div>
               <div class="register-btn-box2">
                 <img
                   src="static/res/btn_receive.png"
@@ -238,6 +241,9 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="toast-box" id="toast-self">
+      <span class="toast-title" onclick="handleToastClick()"></span>
     </div>
     <div class="pb-bg-wrap">
       <img src="static/res/bg_pc.jpeg" alt="pc-bg" class="bg-pc"/>

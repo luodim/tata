@@ -36,6 +36,7 @@ const userInfoMock = {
   message: 'service success',
   traceId: '2fb0f60f8aaf4ef7bb7c2b2f108a3594',
   result: {
+    isOpen: 0,
     myPrize: {
       id: null,
       status: 11,
@@ -46,10 +47,10 @@ const userInfoMock = {
       uniqueLock: null,
       prizeName: '屈臣氏SPA服务券',
       prize: null,
-      pageId: 9,
+      pageId: 3,
       card: '103:948',
-      // address: '***hhhh',
-      address: '',
+      address: '***hhhhasdasl;dkl;askdl;askd;laskdl;sakdl;skd;laskd;l',
+      // address: '',
       phone: '188****2222',
       name: '12*4',
       defaultStatus: null,
@@ -77,6 +78,7 @@ const gameDataMock = {
   message: 'service success',
   traceId: 'c4cfe03e263c482c99c874508fdba54a',
   result: {
+    isOpen: 0,
     info: {
       first_singlecloneend_time: '2021-12-17 13:00:24',
       first_ssr_weapon: '1478',
@@ -130,6 +132,7 @@ const codeDataMock = {
   message: '已领取',
   traceId: '8d9ae8c9de4a40ebb595fbc5fcaf160b',
   result: {
+    isOpen: 0,
     code: '201:926',
   },
 }
@@ -150,6 +153,7 @@ const lotteryDataMock = {
   message: 'service success',
   traceId: '6991ca839a86422ba13990600963d158',
   result: {
+    isOpen: 0,
     prizeName: '屈臣氏SPA服务券',
     type: 12,
     pageId: 9,
@@ -162,5 +166,7 @@ const addressDataMock = {
   status: 1000,
   message: '地址绑定成功',
   traceId: '39c3bf1903604094a1709ef137f5c468',
-  result: {},
+  result: {
+    isOpen: 0,
+  },
 }

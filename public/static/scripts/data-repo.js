@@ -1,4 +1,4 @@
-const isTest = false
+const isTest = true
 const baseUrl = 'https://event.games.wanmei.com'
 
 function reqGet(api) {

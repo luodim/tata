@@ -23,6 +23,16 @@ body {
   margin: auto;
 }
 
+#toast-self {
+  width: 75rem;
+  height: 150rem;
+  position: absolute;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .loading-wrap {
   width: 75rem;
   height: 150rem;
@@ -899,16 +909,28 @@ body {
 }
 
 .my-prize-address {
-  width: 40.7rem;
+  width: 40rem;
   font-size: 2.2rem;
   font-family: HYQiHei;
   font-weight: normal;
   color: #799ee8;
   line-height: 3rem;
-  position: absolute;
+  /* position: absolute; */
   text-align: left;
+  word-break: break-all;
+  /* left: 0;
+  top: 0; */
+}
+
+.my-prize-address-box {
+  width: 50rem;
   left: 0;
   top: 0;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
 }
 
 .my-prize-info-wrap {
@@ -942,4 +964,39 @@ body {
   max-width: 1920px;
   max-height: 1080px;
   position: relative;
+}
+
+.toast-title {
+  /* position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto; */
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 0.8rem 1.2rem;
+  border-radius: 1.2rem;
+  font-size: 2.2rem;
+  font-family: Arial;
+  font-weight: normal;
+  color: #ffffff;
+  z-index: -9;
+  opacity: 0;
+  width: fit-content;
+  line-height: 2.4rem;
+  height: 2.4rem;
+}
+
+.modify-address {
+  width: 6rem;
+  font-size: 2.2rem;
+  font-family: HYQiHei;
+  font-weight: normal;
+  color: #ffffff;
+  line-height: 4.5rem;
+  padding: 0 2rem;
+  background: #2166f0;
+  border-radius: 2px;
+  text-align: center;
+  margin-left: 1.8rem;
 }

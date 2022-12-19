@@ -1,5 +1,5 @@
 const tipsDuration = isTest ? 100 : 2500
-
+const phoneReg = /^[1]([3-9])[0-9]{9}$/
 let mockTestCount = 0
 let isLogin = false
 let noAccount = false
@@ -7,6 +7,7 @@ let serverData = null
 let storyContent = null
 let registerData = { name: '', phone: '', address: '', address2: '' }
 let giftType = null
+let timer = null
 
 function displayCtrl(node, state) {
   if (!node) return
@@ -25,6 +26,11 @@ function showAnimCtrl(node, state, min = '0', max = '1', minZ = '-9', maxZ = '9'
 function setOp(node, op) {
   if (!node) return
   node.style.opacity = op
+}
+
+function setZIndex(node, zIndex) {
+  if (!node) return
+  node.style.zIndex = `${zIndex}`
 }
 
 function setMargin(node, m) {
@@ -74,6 +80,7 @@ function getNode(selector) {
 
 // const gameNode = getNode('#GameDiv')
 const h5Node = getNode('#h5-container')
+const toastNode = getNode('#toast-self')
 const progressBoxNode = getNode('.progress-box')
 const progressBlueNode = getNode('.progress-blue')
 const progressMatrix = getNode('.progress-matrix')
@@ -116,6 +123,8 @@ const prizeName3 = getNode('.prize-name2')
 const qcsTipsNode = getNode('.qcs-tips')
 const wrapInfo = getNode('.my-prize-info-wrap')
 const pcBg = getNode('.pb-bg-wrap')
+const toastTitle = getNode('.toast-title')
+const myPrizeAddressBox = getNode('.my-prize-address-box')
 
 noAccountContentNode &&
   (noAccountContentNode.innerHTML = `您还没有创建角色哦，
@@ -140,6 +149,13 @@ function handleClose(contentNodeName, needChange, deg) {
   if (needChange) displayCtrl(h5Node, false)
 }
 
+// 修改地址
+function handleModify() {
+  showModal(myPrizeNode, false, 90)
+  showModal(receivePrizeNode, false, 90)
+  showModal(registerPrizeNode, true)
+}
+
 // 更新奖品信息
 function setPrizeInfo() {
   const data = getPrizeData()
@@ -160,10 +176,14 @@ function setPrizeInfo() {
 // 更新用户信息
 async function updateUserInfo() {
   const res2 = await reqUserInfo()
-  window.userInfo = res2.result
-  console.log('update user info', JSON.stringify(window.userInfo))
-  setPrizeInfo()
-  window.setLotteryState && window.setLotteryState()
+  if (res2) {
+    window.userInfo = res2.result
+    if (res2.result) {
+      window.isOpen = res2.result.isOpen
+    }
+    setPrizeInfo()
+    window.setLotteryState && window.setLotteryState()
+  }
 }
 
 // 登录窗口确定点击
@@ -171,38 +191,62 @@ async function handleConfirm() {
   if (isTest) serverData = serverDataMock
   if (!serverData) return
   const res2 = await reqUserInfo()
-  if (res2)  window.userInfo = res2.result
+  if (res2) {
+    window.userInfo = res2.result
+    if (res2.result) {
+      window.isOpen = res2.result.isOpen
+    }
+    console.log('login state', res2, window.isOpen)
+    window.onIsOpenState && window.onIsOpenState(res2.isOpen)
+    setPrizeInfo()
+  }
   const { serverId, roleId } = serverData
   if (!serverId || !roleId) return
   const res = await reqGameData(roleId, serverId)
   if (res && res.result) window.gameData = res.result.info
   showAnimCtrl(loginDialogBoxNode, false)
   showAnimCtrl(bgLoadingNode, false)
-  showAnimCtrl(tipsNode, true)
-  setTimeout(() => {
-    showModal(tipsNode, false)
+
+  if (window.isOpen) {
+    showAnimCtrl(tipsNode, true)
+    setTimeout(() => {
+      showModal(tipsNode, false)
+      displayCtrl(h5Node, false)
+      window.onGameInit && window.onGameInit()
+    }, tipsDuration)
+  } else {
     displayCtrl(h5Node, false)
-    window.onGameInit && window.onGameInit()
-  }, tipsDuration)
+  }
 }
 
 // 分享故事提交
 async function handleSubmit() {
+  showModal(shareStoryNode, false)
+  displayCtrl(h5Node, false)
   const res = await reqShareStory(storyContent)
   console.log(res)
   if (res.status === 1000) {
     // todo
+    showToast('分享成功', 0)
   }
   updateUserInfo()
-  showModal(shareStoryNode, false)
-  displayCtrl(h5Node, false)
 }
 
 // 地址绑定提交
 async function handleSubmitInfo() {
   if (!registerData || !registerData.name || !registerData.phone) {
+    showToast('请填写完整信息', 0)
     return
   }
+
+  if (!phoneReg.test(registerData.phone)) {
+    showToast('请填写正确的手机号', 0)
+    return
+  }
+
+  showModal(registerPrizeNode, false)
+  displayCtrl(h5Node, false)
+
   const res = await reqAddress(
     `${registerData.address} ${registerData.address2}`,
     registerData.name,
@@ -210,11 +254,9 @@ async function handleSubmitInfo() {
   )
   console.log(res)
   if (res.status === 1000) {
-    // todo
+    showToast('地址绑定成功！')
   }
   updateUserInfo()
-  showModal(registerPrizeNode, false)
-  displayCtrl(h5Node, false)
 }
 
 // 点击进行地址绑定流程的按钮
@@ -228,6 +270,11 @@ function handleRegister() {
     showModal(receivePrizeNode, false, 90)
     displayCtrl(h5Node, false)
   }
+}
+
+// toast点击
+function handleToastClick() {
+  // hiddenToast()
 }
 
 function getUserData() {
@@ -272,6 +319,8 @@ function handleCopy(id) {
   document.execCommand('copy', true)
   // 移除输入框
   document.body.removeChild(textarea)
+
+  showToast('复制成功！', 90)
 }
 
 function isSTGift() {
@@ -290,6 +339,30 @@ function isQCS() {
     return Number(id) === 9
   }
   return false
+}
+
+function toastTime(deg) {
+  timer && clearTimeout(timer)
+  timer = setTimeout(() => {
+    hiddenToast(deg)
+  }, 2000)
+}
+
+function showToast(title, deg) {
+  if (toastTitle) {
+    setText(toastTitle, title)
+    toastTitle.style.transform = `rotate(${deg}deg)`
+    setTimeout(() => {
+      displayCtrl(toastNode, true)
+      showModal(toastTitle, true, deg)
+      toastTime(deg)
+    }, 10)
+  }
+}
+
+function hiddenToast(deg) {
+  showModal(toastTitle, false, deg)
+  displayCtrl(toastNode, false)
 }
 
 window.onLoadProgress = (progress) => {
@@ -322,17 +395,20 @@ window.onClickShareStory = () => {
 // 生成海报后
 window.onClickSharePoster = async () => {}
 
+// 抽奖次数不足
+window.onClickNoLottory = () => {
+  showToast(`抽奖次数不足`, 90)
+}
+
 /**
  * 点击抽奖按钮
  */
 window.onClickLottory = async () => {
   const res = await reqLottery()
 
-  const pageId = res && res.result && res.result.pageId ||null
-  const hasPrize = Boolean(
-    pageId !== undefined && pageId !== null
-  )
-  giftType = (pageId !== 6 && pageId !== 7 && pageId !== 9) ? 11 : 12
+  const pageId = (res && res.result && res.result.pageId) || null
+  const hasPrize = Boolean(pageId !== undefined && pageId !== null)
+  giftType = pageId !== 6 && pageId !== 7 && pageId !== 9 ? 11 : 12
   updateUserInfo()
   displayCtrl(h5Node, true)
   if (!hasPrize) {
@@ -361,7 +437,8 @@ window.onMyPrizeClick = () => {
     setText(noPrizeTitle, '// 我的奖品')
     setText(noPrizeContent, '您还没有抽到奖品哦')
   } else {
-    if (giftType === 11) { // 实体礼品
+    if (giftType === 11) {
+      // 实体礼品
       setText(myPrizeInfo, '// 领奖邮寄地址 _')
       if (window.userInfo.myPrize.address) {
         setText(myPrizeAddrss, window.userInfo.myPrize.address)
@@ -372,9 +449,11 @@ window.onMyPrizeClick = () => {
       }
       setOp(codeBox, 0)
       setOp(copyTipsNode, 0)
-      setOp(myPrizeAddrss, 1)
+      setOp(myPrizeAddressBox, 1)
+      setZIndex(myPrizeAddressBox, 1)
       setOp(qcsTipsNode, 0)
-    } else { // 虚拟礼品
+    } else {
+      // 虚拟礼品
       displayCtrl(registerBox, false)
       setText(myPrizeInfo, !isQCS() ? '// 奖品信息 _' : '// 券码信息 _')
       setText(codeNameNode, !isQCS() ? '卡密' : '激活码')
@@ -387,7 +466,9 @@ window.onMyPrizeClick = () => {
       }
       setOp(codeBox, 1)
       setOp(copyTipsNode, 1)
-      setOp(myPrizeAddrss, 0)
+      setOp(myPrizeAddressBox, 0)
+      setZIndex(myPrizeAddressBox, -9)
+      // setOp()
     }
     setText(prizeName, getPrizeData() && getPrizeData().prizeName ? getPrizeData().prizeName : '')
     // setText(accountText, getPrizeData() && getPrizeData().card ? getPrizeData().card : '')
