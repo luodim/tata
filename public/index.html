@@ -277,12 +277,10 @@
       if ($.islogin()) {
         //登录
         $('.userName').text(userStatus.nickName)
-        console.log('loginState', 'has login')
         isLogin = true
       } else {
         isLogin = false
         //未登录
-        console.log('loginState', 'not login')
       }
       $('.logIn').on('click', function () {
         $.islogin(true)
@@ -306,14 +304,14 @@
         roleNode: $('#role'),
       })
       sr.load = function (res) {
-        console.log('sr load', res)
+        // console.log('sr load', res)
       }
       sr.error = function (res) {
-        console.log(res)
+        // console.log(res)
         noAccount = true
       }
       sr.change = function (res) {
-        console.log('server data', res)
+        // console.log('server data', res)
         serverData = res
         if (res && res.roleData && res.roleData.roleName) window.nickName = res.roleData.roleName
       }

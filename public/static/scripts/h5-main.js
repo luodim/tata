@@ -12,8 +12,6 @@ let timer = null
 function displayCtrl(node, state) {
   if (!node) return
   node.style.zIndex = state ? '999' : '-9'
-  // node.style.left = state ? '0' : '-200vw'
-  // node.style.right = state ? '0' : '-200vw'
 }
 
 function showAnimCtrl(node, state, min = '0', max = '1', minZ = '-9', maxZ = '9') {
@@ -131,6 +129,7 @@ noAccountContentNode &&
 不如先来这里看看`)
 
 displayCtrl(h5Node, true)
+displayCtrl(toastNode, false)
 
 if (pcBg) {
   pcBg.style.zIndex = window.isPC ? '999' : '-999'
@@ -195,9 +194,10 @@ async function handleConfirm() {
     window.userInfo = res2.result
     if (res2.result) {
       window.isOpen = res2.result.isOpen
+      console.debug('login state', res2, res2.result.isOpen, window.isOpen)
     }
-    console.log('login state', res2, window.isOpen)
-    window.onIsOpenState && window.onIsOpenState(res2.isOpen)
+    window.onIsOpenState && window.onIsOpenState(window.isOpen)
+    console.debug('msg to cocos, open state is ', window.isOpen)
     setPrizeInfo()
   }
   const { serverId, roleId } = serverData
@@ -224,10 +224,10 @@ async function handleSubmit() {
   showModal(shareStoryNode, false)
   displayCtrl(h5Node, false)
   const res = await reqShareStory(storyContent)
-  console.log(res)
   if (res.status === 1000) {
-    // todo
     showToast('分享成功', 0)
+  } else {
+    showToast('分享失败', 0)
   }
   updateUserInfo()
 }
@@ -243,7 +243,6 @@ async function handleSubmitInfo() {
     showToast('请填写正确的手机号', 0)
     return
   }
-
   showModal(registerPrizeNode, false)
   displayCtrl(h5Node, false)
 
@@ -252,7 +251,6 @@ async function handleSubmitInfo() {
     registerData.name,
     registerData.phone
   )
-  console.log(res)
   if (res.status === 1000) {
     showToast('地址绑定成功！')
   }
@@ -261,7 +259,6 @@ async function handleSubmitInfo() {
 
 // 点击进行地址绑定流程的按钮
 function handleRegister() {
-  console.log(giftType, 'handle register')
   if (giftType === 11) {
     showModal(myPrizeNode, false, 90)
     showModal(receivePrizeNode, false, 90)
@@ -292,7 +289,6 @@ function handleTAChange(v) {
 }
 
 function handleIpt(v, id) {
-  console.log(v, id)
   const obj = { ...registerData }
   obj[id] = v
   registerData = obj
@@ -405,7 +401,6 @@ window.onClickNoLottory = () => {
  */
 window.onClickLottory = async () => {
   const res = await reqLottery()
-
   const pageId = (res && res.result && res.result.pageId) || null
   const hasPrize = Boolean(pageId !== undefined && pageId !== null)
   giftType = pageId !== 6 && pageId !== 7 && pageId !== 9 ? 11 : 12
@@ -430,7 +425,6 @@ window.onClickLottory = async () => {
 window.onMyPrizeClick = () => {
   const hasPrize = Boolean(window.userInfo && window.userInfo.myPrize)
   giftType = isSTGift() ? 11 : 12
-  console.log(giftType)
   displayCtrl(h5Node, true)
   // debugger
   if (!hasPrize) {

@@ -38,3 +38,4 @@ function needRouter() {
 
 fit()
 needRouter()
+window.console.log = function() {}
