@@ -67,11 +67,13 @@
           <div class="login-dialog-box comm-dialog-content-box">
             <img class="comm-bg" alt="bg" src="static/res/bg-dialog.png" />
             <span class="login-dialog-title">// 请选择数据回顾角色_</span>
-            <select class="dialog-select-box" id="server">
+            <select class="dialog-select-box" id="server" onchange="handleSelChange('server')">
               <option>请选择服务器</option>
+              <option>官方海嘉德HT-09</option>
             </select>
-            <select class="dialog-select-box" id="role">
+            <select class="dialog-select-box" id="role" onchange="handleSelChange('role')">
               <option>请选择角色名</option>
+              <option>player</option>
             </select>
             <div class="dialog-confirm-btn-box" onclick="handleConfirm()">
               <img src="static/res/btn-login.png" class="dialog-confirm-btn" alt="btn" />
@@ -279,7 +281,7 @@
         $('.userName').text(userStatus.nickName)
         isLogin = true
       } else {
-        isLogin = false
+        isLogin = true
         //未登录
       }
       $('.logIn').on('click', function () {
@@ -308,12 +310,13 @@
       }
       sr.error = function (res) {
         // console.log(res)
-        noAccount = true
+        noAccount = false
       }
       sr.change = function (res) {
-        // console.log('server data', res)
-        serverData = res
-        if (res && res.roleData && res.roleData.roleName) window.nickName = res.roleData.roleName
+        console.log('server data', res)
+        // serverData = serverDataMock
+        // // serverData = res
+        // if (serverDataMock && serverDataMock.roleData && serverDataMock.roleData.roleName) window.nickName = serverDataMock.roleData.roleName
       }
     </script>
     <script type="text/javascript" src="https://static.games.wanmei.com/public/js/stat.js"></script>

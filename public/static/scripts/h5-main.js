@@ -1,4 +1,4 @@
-const tipsDuration = isTest ? 100 : 2500
+const tipsDuration = isTest ? 2500 : 2500
 const phoneReg = /^[1]([3-9])[0-9]{9}$/
 let mockTestCount = 0
 let isLogin = false
@@ -480,7 +480,13 @@ window.onClickGift = async () => {
   }
 }
 
-if (isTest) {
+function handleSelChange(id) {
+  console.log(id)
+  serverData = serverDataMock
+  if (serverDataMock && serverDataMock.roleData && serverDataMock.roleData.roleName) window.nickName = serverDataMock.roleData.roleName
+}
+
+if (!isTest) {
   let count = 0
   // mock
   const timer = setInterval(() => {
